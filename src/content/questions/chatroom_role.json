@@ -1,0 +1,189 @@
+{
+  "slug": "chatroom-role-test",
+  "title": "단톡방 역할 유형 테스트",
+  "description": "단체 채팅방에서 당신은 어떤 역할을 맡고 있나요? 10가지 질문으로 알아보세요!",
+  "questions": [
+    {
+      "id": "cr_q1",
+      "text": "단톡방에 새 메시지 알림이 왔다. 당신의 첫 반응은?",
+      "options": [
+        { "value": "a", "label": "바로 확인하고 답장한다", "trait": "active-responder" },
+        { "value": "b", "label": "시간 날 때 천천히 본다", "trait": "observer" },
+        { "value": "c", "label": "재밌는 이모티콘부터 하나 보낸다", "trait": "emoji-master" },
+        { "value": "d", "label": "밤이라 오히려 더 반갑다", "trait": "night-owl" }
+      ]
+    },
+    {
+      "id": "cr_q2",
+      "text": "단톡방 대화가 뜸해졌을 때 당신의 행동은?",
+      "options": [
+        { "value": "a", "label": "웃긴 짤이나 영상을 공유한다", "trait": "mood-maker" },
+        { "value": "b", "label": "요즘 핫한 뉴스 링크를 던진다", "trait": "info-provider" },
+        { "value": "c", "label": "다음 모임 일정을 잡자고 한다", "trait": "planner" },
+        { "value": "d", "label": "완전히 다른 주제로 말을 꺼낸다", "trait": "topic-changer" }
+      ]
+    },
+    {
+      "id": "cr_q3",
+      "text": "친구가 단톡방에 고민을 털어놓았다. 당신은?",
+      "options": [
+        { "value": "a", "label": "즉시 위로의 메시지를 보낸다", "trait": "active-responder" },
+        { "value": "b", "label": "관련 정보나 해결책을 찾아서 공유한다", "trait": "info-provider" },
+        { "value": "c", "label": "분위기를 부드럽게 풀어줄 말을 한다", "trait": "mood-maker" },
+        { "value": "d", "label": "조용히 읽고 마음속으로 응원한다", "trait": "observer" }
+      ]
+    },
+    {
+      "id": "cr_q4",
+      "text": "단톡방에서 모임 장소를 정하는 중이다. 당신의 역할은?",
+      "options": [
+        { "value": "a", "label": "투표를 만들어 의견을 모은다", "trait": "planner" },
+        { "value": "b", "label": "맛집 리스트와 리뷰 링크를 정리해서 올린다", "trait": "info-provider" },
+        { "value": "c", "label": "어디든 좋다며 귀여운 이모티콘을 보낸다", "trait": "emoji-master" },
+        { "value": "d", "label": "결정되면 알려달라고 한다", "trait": "observer" }
+      ]
+    },
+    {
+      "id": "cr_q5",
+      "text": "단톡방에서 논쟁이 벌어졌다. 당신의 반응은?",
+      "options": [
+        { "value": "a", "label": "분위기 전환용 드립을 친다", "trait": "mood-maker" },
+        { "value": "b", "label": "자연스럽게 다른 화제를 꺼낸다", "trait": "topic-changer" },
+        { "value": "c", "label": "팩트 체크를 해서 정리해준다", "trait": "info-provider" },
+        { "value": "d", "label": "일단 지켜보며 상황을 파악한다", "trait": "observer" }
+      ]
+    },
+    {
+      "id": "cr_q6",
+      "text": "단톡방이 가장 활발한 시간대는 언제가 좋을까?",
+      "options": [
+        { "value": "a", "label": "아무 때나 상관없다, 실시간이 중요하다", "trait": "active-responder" },
+        { "value": "b", "label": "저녁 이후 자유로운 시간이 좋다", "trait": "night-owl" },
+        { "value": "c", "label": "점심시간에 잠깐 확인하는 정도가 좋다", "trait": "observer" },
+        { "value": "d", "label": "새벽에 오히려 대화가 깊어진다", "trait": "night-owl" }
+      ]
+    },
+    {
+      "id": "cr_q7",
+      "text": "단톡방에 누군가 사진을 올렸다. 당신의 반응은?",
+      "options": [
+        { "value": "a", "label": "이모티콘 폭격을 날린다", "trait": "emoji-master" },
+        { "value": "b", "label": "재치 있는 한마디를 남긴다", "trait": "mood-maker" },
+        { "value": "c", "label": "그 장소가 어딘지 정보를 알아본다", "trait": "info-provider" },
+        { "value": "d", "label": "연관된 전혀 다른 이야기를 시작한다", "trait": "topic-changer" }
+      ]
+    },
+    {
+      "id": "cr_q8",
+      "text": "단톡방에서 생일인 친구가 있다. 당신은?",
+      "options": [
+        { "value": "a", "label": "제일 먼저 축하 메시지를 보낸다", "trait": "active-responder" },
+        { "value": "b", "label": "생일 파티 계획을 세운다", "trait": "planner" },
+        { "value": "c", "label": "특별한 이모티콘이나 GIF를 찾아서 보낸다", "trait": "emoji-master" },
+        { "value": "d", "label": "축하 메시지를 보내고 그 친구와의 추억을 꺼낸다", "trait": "topic-changer" }
+      ]
+    },
+    {
+      "id": "cr_q9",
+      "text": "단톡방에서 여행 계획을 세우는 중이다. 당신의 포지션은?",
+      "options": [
+        { "value": "a", "label": "날짜 조율하고 숙소 예약까지 맡는다", "trait": "planner" },
+        { "value": "b", "label": "현지 맛집과 관광지 정보를 조사해서 공유한다", "trait": "info-provider" },
+        { "value": "c", "label": "여행 기대감을 높이는 드립을 날린다", "trait": "mood-maker" },
+        { "value": "d", "label": "새벽에 갑자기 여행 관련 영상을 공유한다", "trait": "night-owl" }
+      ]
+    },
+    {
+      "id": "cr_q10",
+      "text": "단톡방을 나가야 할 상황이 온다면 당신의 마지막 메시지는?",
+      "options": [
+        { "value": "a", "label": "감사 인사와 함께 하트 이모티콘을 가득 보낸다", "trait": "emoji-master" },
+        { "value": "b", "label": "새로운 연락처를 정리해서 공유한다", "trait": "planner" },
+        { "value": "c", "label": "마지막으로 웃긴 한마디를 남긴다", "trait": "mood-maker" },
+        { "value": "d", "label": "조용히 나간다", "trait": "observer" }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "active-responder",
+      "title": "실시간 반응러",
+      "emoji": "⚡",
+      "summary": "메시지가 오면 즉시 확인하고 반응하는 단톡방의 활력소! 당신이 있어야 대화가 흘러간다.",
+      "traits": ["빠른 반응 속도", "활발한 참여", "즉흥적인 소통"],
+      "mistake": "너무 빠른 답장에 오타나 말실수가 생길 수 있다. 가끔은 보내기 전에 한 번 더 읽어보자.",
+      "bestMatch": "관찰자 유형과 서로 보완된다. 당신이 대화를 이끌면 관찰자가 조용히 따라온다.",
+      "todayAction": "오늘은 답장 전에 3초만 기다렸다가 보내보자. 의외로 여유가 생긴다."
+    },
+    {
+      "id": "observer",
+      "title": "관찰자",
+      "emoji": "👀",
+      "summary": "모든 대화를 읽고 있지만 반응은 최소한으로 하는 조용한 존재. 하지만 다 알고 있다.",
+      "traits": ["신중한 태도", "높은 관찰력", "선택적 반응"],
+      "mistake": "너무 조용하면 관심이 없다고 오해받을 수 있다. 가끔은 짧게라도 반응해보자.",
+      "bestMatch": "분위기 메이커 유형과 잘 맞는다. 그들이 분위기를 띄우면 편하게 웃을 수 있다.",
+      "todayAction": "오늘은 단톡방에서 최소 세 번은 반응해보자. 이모티콘 하나라도 괜찮다."
+    },
+    {
+      "id": "mood-maker",
+      "title": "분위기 메이커",
+      "emoji": "🎉",
+      "summary": "단톡방의 웃음 담당! 당신의 한마디에 모두가 웃고, 당신이 없으면 채팅방이 심심해진다.",
+      "traits": ["유머 감각", "사교성", "긍정적 에너지"],
+      "mistake": "분위기를 띄우려다 진지한 대화를 가볍게 넘길 수 있다. 때로는 진지함도 필요하다.",
+      "bestMatch": "분석가(정보통) 유형과 좋은 조합이다. 정보에 유머를 더하면 최고의 대화가 된다.",
+      "todayAction": "오늘은 누군가의 진지한 이야기에 경청하는 답장을 보내보자."
+    },
+    {
+      "id": "info-provider",
+      "title": "정보통",
+      "emoji": "📚",
+      "summary": "유용한 정보와 링크의 보물창고! 궁금한 게 있으면 당신에게 물어보면 된다.",
+      "traits": ["정보 수집력", "공유 정신", "꼼꼼함"],
+      "mistake": "정보 공유가 과하면 잔소리처럼 느껴질 수 있다. 요청이 있을 때 공유하는 센스도 필요하다.",
+      "bestMatch": "총무형 유형과 환상의 조합이다. 정보를 제공하면 총무가 실행에 옮긴다.",
+      "todayAction": "오늘은 정보 대신 개인적인 안부 인사를 먼저 건네보자."
+    },
+    {
+      "id": "planner",
+      "title": "총무형",
+      "emoji": "📋",
+      "summary": "모임 일정 조율부터 장소 예약까지, 단톡방의 살림꾼. 당신이 없으면 약속이 잡히지 않는다.",
+      "traits": ["계획성", "책임감", "실행력"],
+      "mistake": "모든 걸 혼자 떠안다 보면 지칠 수 있다. 가끔은 다른 사람에게 역할을 나눠주자.",
+      "bestMatch": "실시간 반응러 유형과 잘 맞는다. 당신이 계획하면 그들이 바로 호응해준다.",
+      "todayAction": "오늘은 계획 없이 단톡방에서 수다만 떨어보자. 의외로 재밌을 것이다."
+    },
+    {
+      "id": "emoji-master",
+      "title": "이모티콘 장인",
+      "emoji": "🎨",
+      "summary": "말보다 이모티콘으로 소통하는 감성 표현의 달인. 상황에 딱 맞는 이모티콘을 항상 가지고 있다.",
+      "traits": ["감성 표현력", "유행 감각", "비언어적 소통"],
+      "mistake": "이모티콘만 보내면 진심이 전달되지 않을 수 있다. 중요한 순간에는 글로 마음을 표현해보자.",
+      "bestMatch": "관찰자 유형과 의외로 잘 맞는다. 관찰자의 짧은 텍스트에 이모티콘으로 감성을 더해준다.",
+      "todayAction": "오늘은 이모티콘 없이 텍스트만으로 마음을 전해보자. 새로운 느낌일 것이다."
+    },
+    {
+      "id": "topic-changer",
+      "title": "화제 전환러",
+      "emoji": "🔀",
+      "summary": "대화의 흐름을 자유자재로 바꾸는 마법사. 뜬금없어 보이지만 항상 새로운 이야깃거리를 가져온다.",
+      "traits": ["창의적 사고", "다양한 관심사", "자연스러운 전환력"],
+      "mistake": "중요한 이야기 도중에 화제를 바꾸면 상대방이 서운할 수 있다. 타이밍을 잘 잡자.",
+      "bestMatch": "정보통 유형과 좋은 궁합이다. 새 주제를 꺼내면 정보통이 관련 정보를 보태준다.",
+      "todayAction": "오늘은 하나의 주제로 깊이 있는 대화를 이어가 보자."
+    },
+    {
+      "id": "night-owl",
+      "title": "심야 활동러",
+      "emoji": "🦉",
+      "summary": "모두가 잠든 시간에 활동하는 밤의 주민. 새벽 감성 메시지의 주인공은 바로 당신이다.",
+      "traits": ["야행성", "새벽 감성", "깊은 대화 선호"],
+      "mistake": "새벽에 보낸 메시지가 아침에 읽히면 민망할 수 있다. 보내기 전에 한 번 더 생각하자.",
+      "bestMatch": "분위기 메이커 유형과 잘 어울린다. 새벽에 둘이 대화하면 끝없이 이어진다.",
+      "todayAction": "오늘은 밤 12시 전에 단톡방에 안부를 남겨보자. 낮의 당신도 매력적이다."
+    }
+  ]
+}

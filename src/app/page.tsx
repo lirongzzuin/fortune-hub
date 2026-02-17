@@ -1,101 +1,75 @@
-import Image from "next/image";
+import { contentRegistry, getAllCategories } from '@/content/registry';
+import ContentCard from '@/components/content/ContentCard';
+import Link from 'next/link';
 
-export default function Home() {
+export default function HomePage() {
+  const categories = getAllCategories();
+  const featured = contentRegistry.slice(0, 3);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="space-y-8">
+      {/* 히어로 */}
+      <section className="text-center py-4">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">오늘 뭐하지?</h1>
+        <p className="text-sm text-gray-500">
+          운세 · 테스트 · 퀴즈 · 게임<br />
+          매일 새로운 재미를 만나보세요
+        </p>
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* 추천 콘텐츠 */}
+      <section>
+        <h2 className="text-lg font-bold text-gray-900 mb-3">오늘의 추천</h2>
+        <div className="space-y-3">
+          {featured.map((c) => (
+            <ContentCard key={c.slug} content={c} />
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* 카테고리별 */}
+      {categories.map((cat) => {
+        const items = contentRegistry.filter(c => c.category === cat.id);
+        return (
+          <section key={cat.id}>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-bold text-gray-900">
+                {cat.emoji} {cat.label}
+              </h2>
+              <Link
+                href={`/c/${cat.id}`}
+                className="text-xs text-blue-500 hover:text-blue-600"
+              >
+                더보기
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {items.map((c) => (
+                <ContentCard key={c.slug} content={c} />
+              ))}
+            </div>
+          </section>
+        );
+      })}
+
+      {/* SEO 텍스트 */}
+      <section className="text-sm text-gray-400 leading-relaxed space-y-2 pt-4 border-t border-gray-100">
+        <p>
+          &lsquo;오늘 뭐하지?&rsquo;는 매일 즐길 수 있는 가벼운 콘텐츠 허브입니다.
+          생년월일 기반의 오늘의 운세, 1분 사주, 단톡방 역할 유형 테스트,
+          회의 포지션 유형 테스트 등 다양한 성격 분석과 유형 테스트를 제공합니다.
+        </p>
+        <p>
+          매일 바뀌는 상식 퀴즈로 지식을 테스트하고, 반응 속도 게임으로 순발력을 확인해보세요.
+          같은 생년월일이라도 매일 조금씩 다른 결과가 나오기 때문에 매일 방문할 이유가 있습니다.
+          모든 콘텐츠는 무료이며, 친구에게 공유하여 함께 즐길 수 있습니다.
+        </p>
+        <p>
+          운세와 성격 테스트 결과는 재미와 참고를 위한 것이며, 전문적인 의학, 법률, 투자 조언이 아닙니다.
+          중요한 결정은 반드시 사용자 본인의 판단과 책임 하에 이루어져야 합니다.
+          가볍고 즐거운 마음으로 하루를 시작해보세요.
+        </p>
+      </section>
     </div>
   );
 }
