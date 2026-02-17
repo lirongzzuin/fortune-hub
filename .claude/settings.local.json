@@ -9,7 +9,12 @@
       "Bash(npx next lint:*)",
       "Bash(node --version:*)",
       "Bash(npm --version:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(npx next build:*)",
+      "Bash(npm run lint:*)",
+      "Bash(node -e:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

@@ -83,7 +83,7 @@ export default function AdSlot({ provider = 'auto', slot, className = '' }: AdSl
         <iframe
           src={widgetUrl}
           width="100%"
-          height={slot === 'B' ? '120' : '100'}
+          height="140"
           frameBorder="0"
           scrolling="no"
           referrerPolicy="unsafe-url"
