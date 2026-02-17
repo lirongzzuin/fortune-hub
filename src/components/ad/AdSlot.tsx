@@ -76,7 +76,8 @@ export default function AdSlot({ provider = 'auto', slot, className = '' }: AdSl
       `?id=${encodeURIComponent(coupangWidgetId)}` +
       `&template=carousel` +
       `&trackingCode=${encodeURIComponent(coupangPartnerId)}` +
-      `&subId=fortune-hub-${slot.toLowerCase()}`;
+      `&subId=fortune-hub-${slot.toLowerCase()}` +
+      `&width=680&height=140`;
 
     return (
       <div ref={adRef} className={`my-4 ${className}`}>
