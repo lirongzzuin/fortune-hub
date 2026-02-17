@@ -1,3 +1,4 @@
+import React from 'react';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
@@ -8,6 +9,8 @@ import ResultView from '@/components/content/ResultView';
 import TestRunner from '@/components/content/TestRunner';
 import QuizRunner from '@/components/content/QuizRunner';
 import ReactionTapGame from '@/components/content/ReactionTapGame';
+import ColorMemoryGame from '@/components/content/ColorMemoryGame';
+import NumberMemoryGame from '@/components/content/NumberMemoryGame';
 import { getQuestionPack } from '@/content/questions';
 
 interface Props {
@@ -94,6 +97,13 @@ export default function ResultPage({ params, searchParams }: Props) {
   }
 
   if (content.type === 'game') {
+    const gameComponents: Record<string, React.ReactNode> = {
+      'reaction-tap': <ReactionTapGame />,
+      'color-memory': <ColorMemoryGame />,
+      'number-memory': <NumberMemoryGame />,
+    };
+    const GameComponent = gameComponents[params.slug] ?? <ReactionTapGame />;
+
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-2">
@@ -105,7 +115,7 @@ export default function ResultPage({ params, searchParams }: Props) {
           </Link>
           <h1 className="text-base font-bold text-gray-900">{content.title}</h1>
         </div>
-        <ReactionTapGame />
+        {GameComponent}
       </div>
     );
   }

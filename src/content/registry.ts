@@ -91,6 +91,30 @@ export const contentRegistry: ContentEntry[] = [
     inputSchema: [],
     adPolicy: { questionAds: 0, resultSlots: ['A', 'B'], coupangCount: 1 },
   },
+  {
+    slug: 'color-memory',
+    category: 'game',
+    type: 'game',
+    title: '색깔 기억 게임',
+    subtitle: '몇 단계까지 기억할 수 있을까?',
+    description: '색깔이 순서대로 점등됩니다. 순서를 기억하고 그대로 탭하세요! 한 단계씩 길어지는 시퀀스를 얼마나 기억할 수 있는지 도전해보세요. 전 세계적으로 사랑받는 기억력 게임입니다.',
+    tags: ['게임', '기억력', '색깔', '도전', '집중력'],
+    emoji: '🎨',
+    inputSchema: [],
+    adPolicy: { questionAds: 0, resultSlots: ['A', 'B'], coupangCount: 1 },
+  },
+  {
+    slug: 'number-memory',
+    category: 'game',
+    type: 'game',
+    title: '숫자 기억 게임',
+    subtitle: '몇 자리 숫자까지 기억할 수 있을까?',
+    description: '숫자가 잠깐 보였다가 사라집니다. 기억해서 정확하게 입력해보세요! 숫자가 점점 길어져 어려워지는 두뇌 트레이닝 게임입니다.',
+    tags: ['게임', '기억력', '숫자', '도전', '두뇌'],
+    emoji: '🔢',
+    inputSchema: [],
+    adPolicy: { questionAds: 0, resultSlots: ['A', 'B'], coupangCount: 1 },
+  },
 ];
 
 export function getContentBySlug(slug: string): ContentEntry | undefined {
