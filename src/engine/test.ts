@@ -2,7 +2,6 @@ import {
   ContentInput,
   GenerateResultOutput,
   QuestionPack,
-  TestResult,
 } from './types';
 import { generatePersonalDetail } from './personalization';
 

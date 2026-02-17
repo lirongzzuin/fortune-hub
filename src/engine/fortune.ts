@@ -8,7 +8,7 @@ import {
   SeedContext,
   DetailSection,
 } from './types';
-import { seedIndex, seedPick, seedScore, seedFloat } from './hash';
+import { seedIndex, seedPick, seedScore } from './hash';
 import { generatePersonalDetail } from './personalization';
 import templatesData from '../content/templates/fortune_templates.v1.json';
 

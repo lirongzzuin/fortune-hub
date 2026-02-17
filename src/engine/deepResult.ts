@@ -23,6 +23,7 @@ import { DeepResultInput, DeepResultOutput } from './types';
  *    - 월 구독 → 무제한 딥 결과
  */
 export async function generateDeepResult(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _input: DeepResultInput
 ): Promise<DeepResultOutput> {
   throw new Error(

@@ -1,11 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createSeedContext } from '@/engine/hash';
 import { getDailyQuizQuestions, generateQuizResult } from '@/engine/quiz';
 import { getToday } from '@/lib/utils';
 import ResultView from './ResultView';
-import AdSlot from '@/components/ad/AdSlot';
 
 export default function QuizRunner() {
   const [currentQ, setCurrentQ] = useState(0);
