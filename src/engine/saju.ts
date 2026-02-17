@@ -6,6 +6,7 @@ import {
 } from './types';
 import { seedIndex, seedPick, seedScore } from './hash';
 import { generatePersonalDetail } from './personalization';
+import { calcSaju, ELEMENTS, ELEMENT_FORTUNES, ELEMENT_CHARS } from './saju_calc';
 
 // 흐름 유형
 const FLOW_TYPES = [
@@ -57,18 +58,104 @@ export function generateSaju(
   input: ContentInput,
   seed: SeedContext,
 ): GenerateResultOutput {
-  // 기본 흐름은 baseSeed로 고정
+  const birthdate = input.birthdate as string | undefined;
+
+  // ── 명리학 계산 시도 ──
+  const sajuCalc = birthdate ? calcSaju(birthdate) : null;
+
+  if (sajuCalc) {
+    // 계산 성공: 오행 기반 결과 생성
+    const { dominantElement, lackingElement, elementCounts,
+            yearPillar, monthPillar, dayPillar } = sajuCalc;
+
+    const dominant = ELEMENT_FORTUNES[dominantElement];
+    const lacking = ELEMENT_FORTUNES[lackingElement];
+
+    // 균형 키워드 (daySeed 변주)
+    const balanceItems = seedPick(BALANCE_KEYWORDS, seed.daySeed, 2, 30);
+    const adviceIdx = seedIndex(seed.daySeed, MODERN_ADVICES.length, 40);
+
+    // 오행 분포 텍스트
+    const elementBar = ELEMENTS.map(el =>
+      `${ELEMENT_CHARS[el]}${elementCounts[el] > 0 ? '●'.repeat(elementCounts[el]) : '○'}`
+    ).join(' ');
+
+    const detailSections: DetailSection[] = [
+      {
+        area: 'pillars',
+        label: '사주 기둥 (년·월·일주)',
+        emoji: '🗓️',
+        text: `년주 ${yearPillar.label} | 월주 ${monthPillar.label} | 일주 ${dayPillar.label}`,
+      },
+      {
+        area: 'element_dist',
+        label: '오행 분포',
+        emoji: '⚖️',
+        text: `${elementBar}\n강한 기운: ${dominantElement}(${ELEMENT_CHARS[dominantElement]}) | 부족한 기운: ${lackingElement}(${ELEMENT_CHARS[lackingElement]})`,
+        score: seedScore(seed.daySeed, 5, 60),
+      },
+      {
+        area: 'dominant',
+        label: `강한 기운: ${dominant.label}`,
+        emoji: dominant.emoji,
+        text: dominant.dominantDesc,
+        score: seedScore(seed.daySeed, 5, 70),
+      },
+      {
+        area: 'lacking',
+        label: `보완할 기운: ${lacking.label}`,
+        emoji: lacking.emoji,
+        text: lacking.lackingAdvice,
+        score: seedScore(seed.daySeed, 5, 80),
+      },
+      {
+        area: 'balance',
+        label: `오늘의 흐름`,
+        emoji: '🎯',
+        text: dominant.todayFlow,
+        score: seedScore(seed.daySeed, 5, 90),
+      },
+      {
+        area: 'extra',
+        label: balanceItems[0].keyword,
+        emoji: '🔑',
+        text: balanceItems[0].advice,
+      },
+    ];
+
+    const resultKeywords = [`${dominantElement}기운`, `${lackingElement}보완`, balanceItems[0].keyword];
+    const summary = `${dominantElement}(${ELEMENT_CHARS[dominantElement]}) 기운이 강한 사주, ${dominant.todayFlow.slice(0, 20)}`;
+
+    const personalDetail = generatePersonalDetail(birthdate, input.name as string | undefined);
+
+    return {
+      resultKey: `saju-${seed.baseSeed}-${seed.dateStr}`,
+      summary,
+      keywords: resultKeywords,
+      doToday: MODERN_ADVICES[adviceIdx],
+      avoidToday: dominant.avoidAction,
+      detailSections,
+      personalDetail,
+      shareCard: {
+        title: '1분 사주',
+        summary,
+        keywords: resultKeywords.slice(0, 2),
+      },
+      meta: {
+        disclaimer: true,
+        generatedAt: seed.dateStr,
+      },
+    };
+  }
+
+  // ── 폴백: 기존 시드 기반 결과 ──
   const flowIdx = seedIndex(seed.baseSeed, FLOW_TYPES.length, 10);
   const flow = FLOW_TYPES[flowIdx];
 
-  // 은유 기운도 baseSeed 기반
   const energyIdx = seedIndex(seed.baseSeed, ENERGY_TYPES.length, 20);
   const energy = ENERGY_TYPES[energyIdx];
 
-  // 균형 키워드는 daySeed로 변주
   const balanceItems = seedPick(BALANCE_KEYWORDS, seed.daySeed, 2, 30);
-
-  // 현대적 조언/주의도 daySeed
   const adviceIdx = seedIndex(seed.daySeed, MODERN_ADVICES.length, 40);
   const cautionIdx = seedIndex(seed.daySeed, MODERN_CAUTIONS.length, 50);
 
@@ -104,12 +191,7 @@ export function generateSaju(
   ];
 
   const keywords = [flow.label, energy.label, balanceItems[0].keyword];
-
-  const personalDetail = generatePersonalDetail(
-    input.birthdate as string | undefined,
-    input.name as string | undefined,
-  );
-
+  const personalDetail = generatePersonalDetail(birthdate, input.name as string | undefined);
   const summary = `${flow.label}의 시기, ${energy.label} 기운이 함께한다.`;
 
   return {

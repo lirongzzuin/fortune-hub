@@ -5,9 +5,8 @@ import AdSlot from '@/components/ad/AdSlot';
 import ShareButtons from '@/components/share/ShareButtons';
 import Disclaimer from '@/components/layout/Disclaimer';
 import ContentCard from '@/components/content/ContentCard';
-import { contentRegistry } from '@/content/registry';
-import { seedPick } from '@/engine/hash';
-import { fnv1aHash } from '@/engine/hash';
+import { contentRegistry, getContentBySlug } from '@/content/registry';
+import { seedPick, fnv1aHash } from '@/engine/hash';
 
 interface ResultViewProps {
   result: GenerateResultOutput;
@@ -35,6 +34,25 @@ export default function ResultView({ result, slug }: ResultViewProps) {
   const otherContent = contentRegistry.filter(c => c.slug !== slug);
   const recommended = seedPick(otherContent, fnv1aHash(slug + result.resultKey), 3, 0);
 
+  // 공유 데이터 구성
+  const content = getContentBySlug(slug);
+  const shareTitle = content
+    ? `${content.emoji} ${content.title}`
+    : result.shareCard.title;
+  const hashTags = result.shareCard.keywords.map(k => `#${k}`).join(' ');
+  const shareText = `${result.shareCard.summary}\n\n${hashTags}\n\n나도 해보기 →`;
+  const siteUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}/p/${slug}`
+    : `/p/${slug}`;
+
+  // adPolicy 기반 슬롯 provider 결정
+  // coupangCount >= 2: B+C 쿠팡 / A AdSense
+  // coupangCount == 1: B 쿠팡 / A+C AdSense
+  // coupangCount == 0: 전부 AdSense
+  const coupangCount = content?.adPolicy?.coupangCount ?? 0;
+  const providerB = coupangCount >= 1 ? 'coupang' : 'adsense';
+  const providerC = coupangCount >= 2 ? 'coupang' : 'adsense';
+
   return (
     <div className="space-y-6">
       {/* 요약 블록 */}
@@ -57,8 +75,8 @@ export default function ResultView({ result, slug }: ResultViewProps) {
         )}
       </div>
 
-      {/* Ad Slot A: 요약 블록 아래 */}
-      <AdSlot slot="A" />
+      {/* Ad Slot A: AdSense (요약 직후 → 높은 노출) */}
+      <AdSlot slot="A" provider="adsense" />
 
       {/* 상세 섹션 */}
       <div className="space-y-3">
@@ -69,11 +87,11 @@ export default function ResultView({ result, slug }: ResultViewProps) {
                 <span className="text-lg">{section.emoji}</span>
                 <h3 className="font-bold text-gray-900 text-sm">{section.label}</h3>
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed">{section.text}</p>
+              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">{section.text}</p>
               <ScoreBar score={section.score} />
             </div>
-            {/* Ad Slot B: 섹션 2~3개 지난 뒤 */}
-            {i === 2 && <AdSlot slot="B" className="mt-3" />}
+            {/* Ad Slot B: 쿠팡 파트너스 (콘텐츠 중간) */}
+            {i === 2 && <AdSlot slot="B" provider={providerB as 'adsense' | 'coupang'} className="mt-3" />}
           </div>
         ))}
       </div>
@@ -92,15 +110,16 @@ export default function ResultView({ result, slug }: ResultViewProps) {
 
       {/* 공유 */}
       <ShareButtons
-        title={result.shareCard.title}
-        text={result.shareCard.summary}
+        title={shareTitle}
+        text={shareText}
+        url={siteUrl}
       />
 
       {/* 고지 문구 */}
       <Disclaimer />
 
-      {/* Ad Slot C: 추천 콘텐츠 위 */}
-      <AdSlot slot="C" />
+      {/* Ad Slot C: 쿠팡 or AdSense (추천 콘텐츠 위) */}
+      <AdSlot slot="C" provider={providerC as 'adsense' | 'coupang'} />
 
       {/* 추천 콘텐츠 */}
       <div>

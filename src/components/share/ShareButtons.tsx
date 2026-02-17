@@ -53,11 +53,16 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
 
+    // Kakao: title = 콘텐츠명, description = 요약 + 해시태그
+    const firstLine = text.split('\n')[0];
+    const hashLine = text.split('\n').find(l => l.startsWith('#')) || '';
+    const kakaoDesc = hashLine ? `${firstLine}\n${hashLine}` : firstLine;
+
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
-        title: `소확잼 - ${title}`,
-        description: text,
+        title,
+        description: kakaoDesc,
         imageUrl: siteUrl ? `${siteUrl}/og-image.png` : undefined,
         link: {
           mobileWebUrl: shareUrl,
@@ -66,7 +71,7 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
       },
       buttons: [
         {
-          title: '결과 보기',
+          title: '나도 해보기',
           link: {
             mobileWebUrl: shareUrl,
             webUrl: shareUrl,
@@ -77,18 +82,28 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
   };
 
   const handleTwitterShare = () => {
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${title} - ${text}`)}&url=${encodeURIComponent(shareUrl)}`;
+    // Twitter: title + 첫 줄(요약) + url
+    const firstLine = text.split('\n')[0];
+    const tweetText = `${title}\n${firstLine}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
     window.open(twitterUrl, '_blank', 'width=600,height=400,noopener,noreferrer');
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <p className="text-xs text-gray-400 text-center font-medium">결과 공유하기</p>
       {kakaoError && (
         <p className="text-xs text-center text-orange-500">
           카카오 SDK 로딩 중입니다. 링크를 복사해 카카오톡에 붙여넣어 주세요.
         </p>
       )}
+
+      {/* 공유 미리보기 */}
+      <div className="bg-gray-50 rounded-xl px-4 py-3 text-xs text-gray-500 leading-relaxed">
+        <p className="font-semibold text-gray-700 mb-1">{title}</p>
+        <p className="line-clamp-2">{text.split('\n')[0]}</p>
+      </div>
+
       <div className="flex gap-2 justify-center flex-wrap">
         {typeof navigator !== 'undefined' && 'share' in navigator && (
           <button
@@ -104,7 +119,7 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
           aria-label="결과 링크 복사하기"
           className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors"
         >
-          {copied ? '✓ 복사됨' : '링크 복사'}
+          {copied ? '✓ 복사됨' : '🔗 링크 복사'}
         </button>
         {hasKakaoKey && (
           <button
@@ -112,7 +127,7 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
             aria-label="카카오톡으로 공유하기"
             className="px-4 py-2 bg-yellow-400 text-gray-900 rounded-full text-sm font-medium hover:bg-yellow-500 transition-colors"
           >
-            카카오톡
+            💬 카카오톡
           </button>
         )}
         <button
@@ -120,7 +135,7 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
           aria-label="X(트위터)에 공유하기"
           className="px-4 py-2 bg-gray-900 text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-colors"
         >
-          X 공유
+          𝕏 공유
         </button>
       </div>
     </div>

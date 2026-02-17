@@ -14,12 +14,19 @@ interface TestRunnerProps {
 export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [selected, setSelected] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
 
-  const handleAnswer = (value: string) => {
+  const handleSelect = (value: string) => {
+    setSelected(value);
+  };
+
+  const handleConfirm = () => {
+    if (!selected) return;
     const q = questionPack.questions[currentQ];
-    const newAnswers = { ...answers, [q.id]: value };
+    const newAnswers = { ...answers, [q.id]: selected };
     setAnswers(newAnswers);
+    setSelected(null);
 
     if (currentQ + 1 >= questionPack.questions.length) {
       setFinished(true);
@@ -35,7 +42,7 @@ export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
   }
 
   const q = questionPack.questions[currentQ];
-  const showMidAd = currentQ === 5; // 중간에 광고 1개 (5번째 문제 후)
+  const showMidAd = currentQ === 5;
 
   return (
     <div className="space-y-6">
@@ -59,13 +66,30 @@ export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
           {q.options.map((opt) => (
             <button
               key={opt.value}
-              onClick={() => handleAnswer(opt.value)}
-              className="w-full text-left px-4 py-3 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 active:scale-[0.98] transition-all text-sm text-gray-700"
+              onClick={() => handleSelect(opt.value)}
+              className={`w-full text-left px-4 py-3 rounded-xl border transition-all text-sm active:scale-[0.98] ${
+                selected === opt.value
+                  ? 'border-purple-500 bg-purple-50 text-purple-900 font-medium'
+                  : 'border-gray-200 hover:border-purple-300 hover:bg-purple-50 text-gray-700'
+              }`}
             >
               {opt.label}
             </button>
           ))}
         </div>
+
+        {/* 다음 버튼 */}
+        <button
+          onClick={handleConfirm}
+          disabled={!selected}
+          className={`w-full mt-4 py-3 rounded-xl font-medium transition-all text-sm ${
+            selected
+              ? 'bg-purple-500 text-white hover:bg-purple-600 active:scale-[0.98]'
+              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+          }`}
+        >
+          {currentQ + 1 >= questionPack.questions.length ? '결과 보기' : '다음'}
+        </button>
       </div>
 
       {showMidAd && <AdSlot slot="A" />}
