@@ -66,15 +66,20 @@ export default function AdSlot({ provider = 'adsense', slot, className = '' }: A
         style={{ minHeight: style.minHeight }}
       >
         {coupangId && (
-          <iframe
-            src={`https://ads-partners.coupang.com/widgets.html?id=${coupangId}&template=carousel&trackingCode=AF&subId=fortune-hub`}
-            width="100%"
-            height="100"
-            frameBorder="0"
-            scrolling="no"
-            referrerPolicy="unsafe-url"
-            title="쿠팡 파트너스"
-          />
+          <>
+            <iframe
+              src={`https://ads-partners.coupang.com/widgets.html?id=${coupangId}&template=carousel&trackingCode=AF&subId=fortune-hub`}
+              width="100%"
+              height="100"
+              frameBorder="0"
+              scrolling="no"
+              referrerPolicy="unsafe-url"
+              title="쿠팡 파트너스"
+            />
+            <p className="text-[10px] text-gray-300 text-center mt-1">
+              이 광고는 쿠팡 파트너스 활동의 일환으로 수수료를 지급받습니다.
+            </p>
+          </>
         )}
       </div>
     );

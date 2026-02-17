@@ -52,6 +52,7 @@ export default function InputForm({ content }: InputFormProps) {
             onChange={(e) => handleChange(field.key, e.target.value)}
             className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-900 bg-white"
             placeholder={field.placeholder}
+            min="1900-01-01"
             max={new Date().toISOString().split('T')[0]}
           />
         );

@@ -1,7 +1,5 @@
-import { type ClassValue, clsx } from 'clsx';
-
 /**
- * 간단한 className 합치기 (clsx 없이도 동작)
+ * 간단한 className 합치기
  */
 export function cn(...inputs: (string | undefined | null | false)[]): string {
   return inputs.filter(Boolean).join(' ');

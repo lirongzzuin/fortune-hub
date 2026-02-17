@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import KakaoInit from '@/components/layout/KakaoInit';
 import Script from 'next/script';
 
 const geistSans = localFont({
@@ -11,7 +12,10 @@ const geistSans = localFont({
   weight: '100 900',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: '오늘 뭐하지? - 운세, 테스트, 퀴즈, 게임',
     template: '%s | 오늘 뭐하지?',
@@ -23,10 +27,18 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ko_KR',
     siteName: '오늘 뭐하지?',
+    url: siteUrl,
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
   },
 };
 
@@ -57,6 +69,7 @@ export default function RootLayout({
         )}
       </head>
       <body className={`${geistSans.variable} font-sans antialiased bg-gray-50 text-gray-900`}>
+        <KakaoInit />
         <Header />
         <main className="max-w-lg mx-auto px-4 py-6 min-h-screen">
           {children}

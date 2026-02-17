@@ -9,7 +9,8 @@ export default function Footer() {
           <Link href="/legal/privacy" className="hover:text-gray-600 transition-colors">개인정보처리방침</Link>
         </div>
         <p>&copy; {new Date().getFullYear()} 오늘 뭐하지? All rights reserved.</p>
-        <p>이 사이트의 모든 콘텐츠는 오락/참고용이며, 전문적 조언이 아닙니다.</p>
+        <p>이 사이트의 모든 콘텐츠는 오락·참고용이며, 전문적 조언이 아닙니다.</p>
+        <p>일부 광고는 쿠팡 파트너스 활동의 일환으로 수수료를 지급받을 수 있습니다.</p>
       </div>
     </footer>
   );
