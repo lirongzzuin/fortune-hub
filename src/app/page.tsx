@@ -10,7 +10,7 @@ export default function HomePage() {
     <div className="space-y-8">
       {/* 히어로 */}
       <section className="text-center py-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">오늘 뭐하지?</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">소확잼</h1>
         <p className="text-sm text-gray-500">
           운세 · 테스트 · 퀴즈 · 게임<br />
           매일 새로운 재미를 만나보세요
@@ -55,7 +55,7 @@ export default function HomePage() {
       {/* SEO 텍스트 */}
       <section className="text-sm text-gray-400 leading-relaxed space-y-2 pt-4 border-t border-gray-100">
         <p>
-          &lsquo;오늘 뭐하지?&rsquo;는 매일 즐길 수 있는 가벼운 콘텐츠 허브입니다.
+          &lsquo;소확잼&rsquo;는 매일 즐길 수 있는 가벼운 콘텐츠 허브입니다.
           생년월일 기반의 오늘의 운세, 1분 사주, 단톡방 역할 유형 테스트,
           회의 포지션 유형 테스트 등 다양한 성격 분석과 유형 테스트를 제공합니다.
         </p>

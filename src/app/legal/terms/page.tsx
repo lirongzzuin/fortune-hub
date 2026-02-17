@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '이용약관',
-  description: '오늘 뭐하지? 서비스 이용약관입니다.',
+  description: '소확잼 서비스 이용약관입니다.',
   robots: { index: false },
 };
 
@@ -19,7 +19,7 @@ export default function TermsPage() {
       <section className="space-y-2">
         <h2 className="font-bold text-gray-900">제1조 (목적)</h2>
         <p>
-          본 약관은 &ldquo;오늘 뭐하지?&rdquo;(이하 &ldquo;서비스&rdquo;)의 이용 조건 및 절차,
+          본 약관은 &ldquo;소확잼&rdquo;(이하 &ldquo;서비스&rdquo;)의 이용 조건 및 절차,
           이용자와 서비스 제공자 간의 권리·의무 및 책임 사항을 규정함을 목적으로 합니다.
         </p>
       </section>

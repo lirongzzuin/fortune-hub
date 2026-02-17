@@ -17,8 +17,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: '오늘 뭐하지? - 운세, 테스트, 퀴즈, 게임',
-    template: '%s | 오늘 뭐하지?',
+    default: '소확잼 - 운세, 테스트, 퀴즈, 게임',
+    template: '%s | 소확잼',
   },
   description:
     '매일 새로운 운세, 성격 테스트, 상식 퀴즈, 반응 게임을 즐겨보세요. 생년월일 기반 맞춤 운세와 재미있는 유형 테스트를 무료로 제공합니다.',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
-    siteName: '오늘 뭐하지?',
+    siteName: '소확잼',
     url: siteUrl,
   },
   robots: {

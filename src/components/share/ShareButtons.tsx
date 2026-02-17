@@ -56,7 +56,7 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
     window.Kakao.Share.sendDefault({
       objectType: 'feed',
       content: {
-        title: `오늘 뭐하지? - ${title}`,
+        title: `소확잼 - ${title}`,
         description: text,
         imageUrl: siteUrl ? `${siteUrl}/og-image.png` : undefined,
         link: {

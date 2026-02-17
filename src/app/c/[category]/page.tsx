@@ -15,7 +15,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const label = getCategoryLabel(params.category);
   return {
-    title: `${label} - 오늘 뭐하지?`,
+    title: `${label} - 소확잼`,
     description: `${label} 카테고리의 모든 콘텐츠를 확인해보세요. 매일 새로운 재미를 제공합니다.`,
   };
 }

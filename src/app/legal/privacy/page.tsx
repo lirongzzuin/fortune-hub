@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '개인정보처리방침',
-  description: '오늘 뭐하지? 서비스의 개인정보처리방침입니다.',
+  description: '소확잼 서비스의 개인정보처리방침입니다.',
   robots: { index: false },
 };
 
@@ -17,7 +17,7 @@ export default function PrivacyPage() {
       </div>
 
       <p className="text-gray-600">
-        &ldquo;오늘 뭐하지?&rdquo;(이하 &ldquo;서비스&rdquo;)는 「개인정보 보호법」을 준수하며,
+        &ldquo;소확잼&rdquo;(이하 &ldquo;서비스&rdquo;)는 「개인정보 보호법」을 준수하며,
         이용자의 개인정보를 보호하기 위해 최선을 다합니다.
         본 방침은 서비스가 어떤 정보를 수집하고 어떻게 사용하는지를 안내합니다.
       </p>
