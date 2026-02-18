@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
-import AdSlot from '@/components/ad/AdSlot';
 import { GenerateResultOutput } from '@/engine/types';
 
 interface ScoreQuestion { id: string; text: string; }
@@ -389,9 +388,6 @@ export default function ScoreTestRunner({ slug }: Props) {
   if (!data) return null;
 
   const q = questions[current];
-  const midPoint = Math.floor(questions.length / 2);
-  const showMidAd = current === midPoint && !finished;
-
   const handleAnswer = (isYes: boolean) => {
     if (selected !== null) return;
     setSelected(isYes);
@@ -514,11 +510,6 @@ export default function ScoreTestRunner({ slug }: Props) {
           </div>
         </div>
       </div>
-
-      {/* 중간 광고 (절반 지점에서) */}
-      {showMidAd && (
-        <AdSlot slot="A" provider="adsense" className="mt-2" />
-      )}
 
       <div className="flex items-center justify-between text-xs text-gray-400 px-1">
         <span>해당 항목: <strong className="text-gray-600">{score}</strong>개</span>

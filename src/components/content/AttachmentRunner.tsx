@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
-import AdSlot from '@/components/ad/AdSlot';
 import { GenerateResultOutput } from '@/engine/types';
 
 type AStyle = 'secure' | 'anxious' | 'avoidant' | 'disorganized';
@@ -196,8 +195,6 @@ export default function AttachmentRunner() {
   const [selected, setSelected] = useState<'a' | 'b' | null>(null);
 
   const q = questions[current];
-  const showMidAd = current === 6;
-
   const handleChoice = (choice: 'a' | 'b') => {
     if (selected) return;
     setSelected(choice);
@@ -288,8 +285,6 @@ export default function AttachmentRunner() {
           })}
         </div>
       </div>
-
-      {showMidAd && <AdSlot slot="A" provider="adsense" className="mt-1" />}
 
       <p className="text-xs text-center text-gray-400">
         정답이 없어요. 가장 솔직한 반응이 가장 정확한 결과를 줍니다 🫂

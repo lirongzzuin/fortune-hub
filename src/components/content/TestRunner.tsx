@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { QuestionPack, ContentInput } from '@/engine/types';
 import { generateTestResult } from '@/engine/test';
 import ResultView from './ResultView';
-import AdSlot from '@/components/ad/AdSlot';
 
 interface TestRunnerProps {
   questionPack: QuestionPack;
@@ -42,8 +41,6 @@ export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
   }
 
   const q = questionPack.questions[currentQ];
-  const showMidAd = currentQ === 5;
-
   return (
     <div className="space-y-6">
       {/* 진행 바 */}
@@ -92,7 +89,6 @@ export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
         </button>
       </div>
 
-      {showMidAd && <AdSlot slot="A" />}
     </div>
   );
 }

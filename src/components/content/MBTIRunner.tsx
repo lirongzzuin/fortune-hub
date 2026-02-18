@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
-import AdSlot from '@/components/ad/AdSlot';
 import { GenerateResultOutput } from '@/engine/types';
 
 type Dim = 'E' | 'I' | 'S' | 'N' | 'T' | 'F' | 'J' | 'P';
@@ -233,8 +232,6 @@ export default function MBTIRunner() {
   const [selected, setSelected] = useState<'a' | 'b' | null>(null);
 
   const q = questions[current];
-  const showMidAd = current === 6;
-
   const handleChoice = (choice: 'a' | 'b') => {
     if (selected) return;
     setSelected(choice);
@@ -334,8 +331,6 @@ export default function MBTIRunner() {
           })}
         </div>
       </div>
-
-      {showMidAd && <AdSlot slot="A" provider="adsense" className="mt-1" />}
 
       <p className="text-xs text-center text-gray-400">
         정답이 없어요! 실제 상황이라면 어떻게 할지 솔직하게 골라보세요 🎯

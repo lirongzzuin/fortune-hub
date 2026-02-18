@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
-import AdSlot from '@/components/ad/AdSlot';
 import { GenerateResultOutput } from '@/engine/types';
 
 type Lang = 'WA' | 'QT' | 'RG' | 'AS' | 'PT';
@@ -255,8 +254,6 @@ export default function LoveLangRunner() {
   const [selected, setSelected] = useState<'a' | 'b' | null>(null);
 
   const q = questions[current];
-  const showMidAd = current === 7;
-
   const handleChoice = (choice: 'a' | 'b') => {
     if (selected) return;
     setSelected(choice);
@@ -347,8 +344,6 @@ export default function LoveLangRunner() {
           })}
         </div>
       </div>
-
-      {showMidAd && <AdSlot slot="A" provider="adsense" className="mt-1" />}
 
       <p className="text-xs text-center text-gray-400">
         둘 다 좋아도 더 원하는 것을 직감으로 골라보세요 💝
