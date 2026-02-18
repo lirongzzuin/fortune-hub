@@ -137,6 +137,9 @@ export default function ResultView({ result, slug }: ResultViewProps) {
           ))}
         </div>
       </div>
+
+      {/* Ad Slot D: 페이지 최하단 (추천 콘텐츠 열람 후 잔류 유저 대상) */}
+      <AdSlot slot="D" provider="adsense" />
     </div>
   );
 }

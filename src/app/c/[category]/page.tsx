@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getContentByCategory, getAllCategories } from '@/content/registry';
 import ContentCard from '@/components/content/ContentCard';
+import AdSlot from '@/components/ad/AdSlot';
 import { getCategoryLabel } from '@/lib/utils';
 
 interface Props {
@@ -56,10 +57,19 @@ export default function CategoryPage({ params }: Props) {
       </section>
 
       <div className="space-y-2.5">
-        {items.map((c) => (
-          <ContentCard key={c.slug} content={c} />
+        {items.map((c, index) => (
+          <div key={c.slug}>
+            <ContentCard content={c} />
+            {/* 목록 절반 지점에 AdSense 삽입 (충분한 콘텐츠 카드로 둘러싸인 위치) */}
+            {index === Math.floor(items.length / 2) - 1 && (
+              <AdSlot slot="A" provider="adsense" className="mt-3" />
+            )}
+          </div>
         ))}
       </div>
+
+      {/* 목록 하단: 쿠팡 파트너스 (전체 목록 탐색 완료 후 잔류 유저 대상) */}
+      <AdSlot slot="B" provider="auto" />
 
       <section className="text-xs text-gray-400 leading-relaxed pt-4 border-t border-gray-100">
         <p>{CATEGORY_DESCRIPTIONS[params.category] || ''}</p>

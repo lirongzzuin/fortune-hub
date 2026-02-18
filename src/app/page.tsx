@@ -1,5 +1,6 @@
 import { contentRegistry, getAllCategories } from '@/content/registry';
 import ContentCard from '@/components/content/ContentCard';
+import AdSlot from '@/components/ad/AdSlot';
 import Link from 'next/link';
 
 export default function HomePage() {
@@ -79,38 +80,45 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 트렌딩↓ 광고: 콘텐츠 카드들 사이에 자연스럽게 삽입 */}
+      <AdSlot slot="A" provider="adsense" />
+
       {/* 카테고리별 전체 목록 */}
       {categories.map((cat) => {
         const items = contentRegistry.filter(c => c.category === cat.id);
         // 테스트 카테고리는 5개까지 노출 (바이럴 콘텐츠 우선)
         const previewCount = cat.id === 'test' ? 5 : 3;
         return (
-          <section key={cat.id}>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-base font-bold text-gray-900">
-                {cat.emoji} {cat.label}
-              </h2>
-              <Link
-                href={`/c/${cat.id}`}
-                className="text-xs text-primary font-medium hover:text-primary-dark transition-colors"
-              >
-                전체보기 →
-              </Link>
-            </div>
-            <div className="space-y-2.5">
-              {items.slice(0, previewCount).map((c) => (
-                <ContentCard key={c.slug} content={c} />
-              ))}
-              {items.length > previewCount && (
+          <div key={cat.id}>
+            <section>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-base font-bold text-gray-900">
+                  {cat.emoji} {cat.label}
+                </h2>
                 <Link
                   href={`/c/${cat.id}`}
-                  className="block text-center py-3 text-sm text-primary font-medium bg-primary-light rounded-xl hover:bg-purple-100 transition-colors"
+                  className="text-xs text-primary font-medium hover:text-primary-dark transition-colors"
                 >
-                  {items.length - previewCount}개 더 보기
+                  전체보기 →
                 </Link>
-              )}
-            </div>
-          </section>
+              </div>
+              <div className="space-y-2.5">
+                {items.slice(0, previewCount).map((c) => (
+                  <ContentCard key={c.slug} content={c} />
+                ))}
+                {items.length > previewCount && (
+                  <Link
+                    href={`/c/${cat.id}`}
+                    className="block text-center py-3 text-sm text-primary font-medium bg-primary-light rounded-xl hover:bg-purple-100 transition-colors"
+                  >
+                    {items.length - previewCount}개 더 보기
+                  </Link>
+                )}
+              </div>
+            </section>
+            {/* 테스트 섹션 직후: 쿠팡 파트너스 배너 (콘텐츠 탐색 중 자연스러운 노출) */}
+            {cat.id === 'test' && <AdSlot slot="B" provider="auto" />}
+          </div>
         );
       })}
 

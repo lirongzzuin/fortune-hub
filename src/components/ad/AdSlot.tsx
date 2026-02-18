@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 interface AdSlotProps {
   provider?: 'adsense' | 'coupang' | 'auto';
-  slot: 'A' | 'B' | 'C';
+  slot: 'A' | 'B' | 'C' | 'D';
   className?: string;
 }
 
