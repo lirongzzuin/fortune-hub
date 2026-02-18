@@ -22,23 +22,49 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
-// 게임별 설정: 점수 순서 (asc = 낮을수록 좋음, desc = 높을수록 좋음), 최대 점수 범위
-const GAME_CONFIG: Record<string, { order: 'asc' | 'desc'; maxScore: number }> = {
-  'reaction-tap':  { order: 'asc',  maxScore: 9999  }, // 반응속도 ms (낮을수록 좋음)
-  'color-memory':  { order: 'desc', maxScore: 100   }, // 기억 단계 (높을수록 좋음)
-  'number-memory': { order: 'desc', maxScore: 30    }, // 자릿수 (높을수록 좋음)
+// 슬러그별 설정: 점수 순서 (asc = 낮을수록 좋음, desc = 높을수록 좋음), 최대 점수 범위
+const SLUG_CONFIG: Record<string, { order: 'asc' | 'desc'; maxScore: number }> = {
+  // 반응 속도 게임 (ms, 낮을수록 좋음)
+  'reaction-tap':          { order: 'asc',  maxScore: 9999  },
+  // 색깔 기억 게임 (단계, 높을수록 좋음)
+  'color-memory':          { order: 'desc', maxScore: 100   },
+  // 숫자 기억 게임 (자리, 높을수록 좋음)
+  'number-memory':         { order: 'desc', maxScore: 30    },
+  // 점수형 테스트 (높을수록 더 해당)
+  'red-flag-test':         { order: 'desc', maxScore: 50    },
+  'brain-rot-level':       { order: 'desc', maxScore: 50    },
+  'npc-test':              { order: 'desc', maxScore: 50    },
+  'gifted-burnout':        { order: 'desc', maxScore: 50    },
+  // 밸런스 게임 (A 선택 횟수)
+  'hell-balance':          { order: 'desc', maxScore: 15    },
+  'moral-dilemma':         { order: 'desc', maxScore: 25    },
+  // 퀴즈 (정답 수, 높을수록 좋음)
+  'one-minute-quiz':       { order: 'desc', maxScore: 30    },
+  'physics-quiz':          { order: 'desc', maxScore: 30    },
+  'chemistry-quiz':        { order: 'desc', maxScore: 30    },
+  'biology-quiz':          { order: 'desc', maxScore: 30    },
+  'world-capitals-quiz':   { order: 'desc', maxScore: 30    },
+  'world-history-quiz':    { order: 'desc', maxScore: 30    },
+  // 성격·유형 테스트 (완료=1, 참여자 명단 표시)
+  'mbti-situation':        { order: 'desc', maxScore: 1     },
+  'chatroom-role-test':    { order: 'desc', maxScore: 1     },
+  'work-meeting-type':     { order: 'desc', maxScore: 1     },
+  'love-language-test':    { order: 'desc', maxScore: 1     },
+  'attachment-style-test': { order: 'desc', maxScore: 1     },
 };
 
-/** GET /api/leaderboard?game=reaction-tap — 상위 20명 조회 */
+const DEFAULT_CONFIG = { order: 'desc' as const, maxScore: 100_000 };
+
+/** GET /api/leaderboard?game=<slug> — 상위 20명 조회 */
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const game = searchParams.get('game');
 
-  if (!game || !GAME_CONFIG[game]) {
-    return NextResponse.json({ error: '유효하지 않은 게임입니다.' }, { status: 400 });
+  if (!game) {
+    return NextResponse.json({ error: '게임 슬러그가 필요합니다.' }, { status: 400 });
   }
 
-  const { order } = GAME_CONFIG[game];
+  const { order } = SLUG_CONFIG[game] ?? DEFAULT_CONFIG;
 
   // 전체 기록 조회 후 닉네임별 최고 기록만 추출
   const { data, error } = await supabase
@@ -46,6 +72,7 @@ export async function GET(req: NextRequest) {
     .select('nickname, score, created_at')
     .eq('game_slug', game)
     .order('score', { ascending: order === 'asc' })
+    .order('created_at', { ascending: false })
     .limit(500); // 닉네임 중복 제거를 위해 여유 있게 조회
 
   if (error) {
@@ -88,11 +115,11 @@ export async function POST(req: NextRequest) {
     score: number;
   };
 
-  const config = GAME_CONFIG[game_slug];
-  if (!config) {
-    return NextResponse.json({ error: '유효하지 않은 게임입니다.' }, { status: 400 });
+  if (!game_slug) {
+    return NextResponse.json({ error: '게임 슬러그가 필요합니다.' }, { status: 400 });
   }
 
+  const config = SLUG_CONFIG[game_slug] ?? DEFAULT_CONFIG;
   const trimmedNickname = String(nickname ?? '').trim().slice(0, 10) || '익명';
 
   if (typeof score !== 'number' || score < 0 || score > config.maxScore) {

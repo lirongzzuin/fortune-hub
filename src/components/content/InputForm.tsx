@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ContentEntry, InputField } from '@/engine/types';
+import LeaderboardPreview from '@/components/game/LeaderboardPreview';
 
 interface InputFormProps {
   content: ContentEntry;
@@ -104,6 +105,7 @@ export default function InputForm({ content }: InputFormProps) {
         >
           시작하기
         </button>
+        <LeaderboardPreview slug={content.slug} />
       </div>
     );
   }

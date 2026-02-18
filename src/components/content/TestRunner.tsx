@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { QuestionPack, ContentInput } from '@/engine/types';
 import { generateTestResult } from '@/engine/test';
 import ResultView from './ResultView';
+import LeaderboardSection from '@/components/game/LeaderboardSection';
 
 interface TestRunnerProps {
   questionPack: QuestionPack;
@@ -44,7 +45,12 @@ export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
   if (finished) {
     const input: ContentInput = {};
     const result = generateTestResult(input, answers, questionPack);
-    return <ResultView result={result} slug={slug} />;
+    return (
+      <div className="space-y-4">
+        <LeaderboardSection slug={slug} score={1} scoreLabel="" sortOrder="desc" />
+        <ResultView result={result} slug={slug} />
+      </div>
+    );
   }
 
   const q = questionPack.questions[currentQ];

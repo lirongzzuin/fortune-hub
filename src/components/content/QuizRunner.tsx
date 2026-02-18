@@ -5,6 +5,7 @@ import { createSeedContext } from '@/engine/hash';
 import { getDailyQuizQuestions, generateQuizResult, QUIZ_META } from '@/engine/quiz';
 import { getToday } from '@/lib/utils';
 import ResultView from './ResultView';
+import LeaderboardSection from '@/components/game/LeaderboardSection';
 
 interface QuizRunnerProps {
   slug: string;
@@ -43,7 +44,12 @@ export default function QuizRunner({ slug }: QuizRunnerProps) {
 
   if (finished) {
     const result = generateQuizResult(score, questions.length, seed, slug);
-    return <ResultView result={result} slug={slug} />;
+    return (
+      <div className="space-y-4">
+        <LeaderboardSection slug={slug} score={score} scoreLabel="정답" sortOrder="desc" />
+        <ResultView result={result} slug={slug} />
+      </div>
+    );
   }
 
   const q = questions[currentQ];
