@@ -18,7 +18,12 @@ export default function ContentCard({ content }: ContentCardProps) {
         </div>
         {/* 콘텐츠 */}
         <div className="flex-1 min-w-0 p-4">
-          <h3 className="font-bold text-gray-900 text-[15px] leading-tight">{content.title}</h3>
+          <div className="flex items-center gap-1.5">
+            <h3 className="font-bold text-gray-900 text-[15px] leading-tight">{content.title}</h3>
+            {content.trending && (
+              <span className="flex-shrink-0 text-[9px] font-bold text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded-full">🔥 인기</span>
+            )}
+          </div>
           <p className="text-xs text-gray-500 mt-1 line-clamp-1">{content.subtitle}</p>
           <div className="flex gap-1.5 mt-2 flex-wrap">
             {content.tags.slice(0, 3).map((tag) => (

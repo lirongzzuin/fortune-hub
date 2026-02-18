@@ -1,7 +1,7 @@
 // ─── Content Registry Types ───
 
 export type ContentCategory = 'fortune' | 'test' | 'quiz' | 'game';
-export type ContentType = 'fortune' | 'saju' | 'personality-test' | 'quiz' | 'game';
+export type ContentType = 'fortune' | 'saju' | 'personality-test' | 'quiz' | 'game' | 'balance-game' | 'score-test' | 'mbti-test';
 export type AdProvider = 'adsense' | 'coupang' | 'none';
 export type AdSlotPosition = 'A' | 'B' | 'C';
 
@@ -33,6 +33,7 @@ export interface ContentEntry {
   adPolicy: AdPolicy;
   questionCount?: number; // for test/quiz
   resultCount?: number; // for personality test
+  trending?: boolean; // mark as trending for recommendation
 }
 
 // ─── Engine Output Types ───

@@ -4,14 +4,8 @@ import Link from 'next/link';
 
 export default function HomePage() {
   const categories = getAllCategories();
-  // 오늘의 추천: 운세 1개 + 각 카테고리 대표 1개씩
-  const trending = [
-    contentRegistry.find(c => c.slug === 'today-fortune'),
-    contentRegistry.find(c => c.slug === 'chatroom-role-test'),
-    contentRegistry.find(c => c.slug === 'one-minute-quiz'),
-    contentRegistry.find(c => c.slug === 'reaction-tap'),
-    contentRegistry.find(c => c.slug === 'color-memory'),
-  ].filter(Boolean) as typeof contentRegistry;
+  // 지금 인기: trending 표시된 콘텐츠 (최대 6개)
+  const trending = contentRegistry.filter(c => c.trending).slice(0, 6);
 
   return (
     <div className="space-y-8">

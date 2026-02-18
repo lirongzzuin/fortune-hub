@@ -30,9 +30,16 @@ function ScoreBar({ score }: { score?: number }) {
 }
 
 export default function ResultView({ result, slug }: ResultViewProps) {
-  // 추천 콘텐츠 (현재 콘텐츠 제외 2~3개)
+  // 추천 콘텐츠: trending 콘텐츠 우선, 현재 콘텐츠 제외, 최대 3개
   const otherContent = contentRegistry.filter(c => c.slug !== slug);
-  const recommended = seedPick(otherContent, fnv1aHash(slug + result.resultKey), 3, 0);
+  const trending = otherContent.filter(c => c.trending);
+  const nonTrending = otherContent.filter(c => !c.trending);
+  // trending 중에서 seed 기반 2개 + 나머지 1개
+  const trendingPicks = seedPick(trending, fnv1aHash(slug + result.resultKey), 2, 0);
+  const extraPick = seedPick(nonTrending, fnv1aHash(slug + result.resultKey + 'extra'), 1, 0);
+  const recommended = trendingPicks.length >= 2
+    ? [...trendingPicks, ...extraPick].slice(0, 3)
+    : seedPick(otherContent, fnv1aHash(slug + result.resultKey), 3, 0);
 
   // 공유 데이터 구성
   const content = getContentBySlug(slug);
