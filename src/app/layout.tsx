@@ -40,6 +40,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  verification: {
+      google: '_8kR3mxQvuCzrU4YUCq2jIPeTlOrOHz_R0xTTeno9sQ',
+    },
 };
 
 export const viewport: Viewport = {

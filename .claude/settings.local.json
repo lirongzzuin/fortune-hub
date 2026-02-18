@@ -18,7 +18,10 @@
       "Bash(npx eslint:*)",
       "Bash(git push:*)",
       "Bash(npm install:*)",
-      "WebFetch(domain:developers.kakao.com)"
+      "WebFetch(domain:developers.kakao.com)",
+      "Bash(nvm list:*)",
+      "Bash(source:*)",
+      "Bash(nvm use:*)"
     ]
   }
 }
