@@ -43,7 +43,7 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-function BackHeader({ slug, title, category }: { slug: string; title: string; category: string }) {
+function BackHeader({ slug, title }: { slug: string; title: string }) {
   return (
     <div className="flex items-center gap-2">
       <Link
@@ -70,7 +70,7 @@ export default function ResultPage({ params, searchParams }: Props) {
     const result = generateResult(content, input);
     return (
       <div className="space-y-4">
-        <BackHeader slug={params.slug} title={content.title} category={content.category} />
+        <BackHeader slug={params.slug} title={content.title} />
         <ResultView result={result} slug={params.slug} />
       </div>
     );
@@ -81,7 +81,7 @@ export default function ResultPage({ params, searchParams }: Props) {
     if (!questionPack) notFound();
     return (
       <div className="space-y-4">
-        <BackHeader slug={params.slug} title={content.title} category={content.category} />
+        <BackHeader slug={params.slug} title={content.title} />
         <TestRunner questionPack={questionPack} slug={params.slug} />
       </div>
     );
@@ -90,7 +90,7 @@ export default function ResultPage({ params, searchParams }: Props) {
   if (content.type === 'quiz') {
     return (
       <div className="space-y-4">
-        <BackHeader slug={params.slug} title={content.title} category={content.category} />
+        <BackHeader slug={params.slug} title={content.title} />
         <QuizRunner slug={params.slug} />
       </div>
     );
@@ -105,7 +105,7 @@ export default function ResultPage({ params, searchParams }: Props) {
     const GameComponent = gameComponents[params.slug] ?? <ReactionTapGame />;
     return (
       <div className="space-y-4">
-        <BackHeader slug={params.slug} title={content.title} category={content.category} />
+        <BackHeader slug={params.slug} title={content.title} />
         {GameComponent}
       </div>
     );
@@ -114,7 +114,7 @@ export default function ResultPage({ params, searchParams }: Props) {
   if (content.type === 'balance-game') {
     return (
       <div className="space-y-4">
-        <BackHeader slug={params.slug} title={content.title} category={content.category} />
+        <BackHeader slug={params.slug} title={content.title} />
         <BalanceGame />
       </div>
     );
@@ -123,7 +123,7 @@ export default function ResultPage({ params, searchParams }: Props) {
   if (content.type === 'score-test') {
     return (
       <div className="space-y-4">
-        <BackHeader slug={params.slug} title={content.title} category={content.category} />
+        <BackHeader slug={params.slug} title={content.title} />
         <ScoreTestRunner slug={params.slug} />
       </div>
     );
@@ -132,7 +132,7 @@ export default function ResultPage({ params, searchParams }: Props) {
   if (content.type === 'mbti-test') {
     return (
       <div className="space-y-4">
-        <BackHeader slug={params.slug} title={content.title} category={content.category} />
+        <BackHeader slug={params.slug} title={content.title} />
         <MBTIRunner />
       </div>
     );
