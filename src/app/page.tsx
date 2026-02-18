@@ -12,22 +12,30 @@ export default function HomePage() {
       {/* 히어로 배너 */}
       <section className="-mx-4 -mt-6 bg-gradient-to-br from-primary to-purple-400 px-6 pt-8 pb-10 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-4 right-8 text-7xl">🔮</div>
-          <div className="absolute bottom-4 right-24 text-5xl">⚡</div>
-          <div className="absolute top-12 right-32 text-4xl">🧠</div>
+          <div className="absolute top-4 right-8 text-7xl">😈</div>
+          <div className="absolute bottom-4 right-24 text-5xl">🚩</div>
+          <div className="absolute top-12 right-32 text-4xl">🧬</div>
         </div>
         <div className="relative">
           <p className="text-purple-200 text-xs font-medium mb-1 uppercase tracking-wider">매일 새로운 재미</p>
           <h1 className="text-2xl font-bold leading-tight mb-2">
-            오늘의 운세를<br />확인해보세요
+            나는 어떤 사람일까?<br />테스트로 알아보기
           </h1>
-          <p className="text-purple-100 text-sm mb-5">운세 · 테스트 · 퀴즈 · 게임</p>
-          <Link
-            href="/p/today-fortune"
-            className="inline-flex items-center gap-1.5 bg-white text-primary font-bold text-sm px-5 py-2.5 rounded-xl shadow-md hover:bg-purple-50 transition-colors active:scale-95"
-          >
-            🔮 오늘의 운세 보기
-          </Link>
+          <p className="text-purple-100 text-sm mb-5">테스트 · 운세 · 퀴즈 · 게임</p>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/p/hell-balance"
+              className="inline-flex items-center gap-1.5 bg-white text-primary font-bold text-sm px-4 py-2.5 rounded-xl shadow-md hover:bg-purple-50 transition-colors active:scale-95"
+            >
+              😈 밸런스 게임
+            </Link>
+            <Link
+              href="/p/red-flag-test"
+              className="inline-flex items-center gap-1.5 bg-white/20 text-white font-bold text-sm px-4 py-2.5 rounded-xl hover:bg-white/30 transition-colors active:scale-95 border border-white/30"
+            >
+              🚩 Red Flag 테스트
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -74,6 +82,8 @@ export default function HomePage() {
       {/* 카테고리별 전체 목록 */}
       {categories.map((cat) => {
         const items = contentRegistry.filter(c => c.category === cat.id);
+        // 테스트 카테고리는 5개까지 노출 (바이럴 콘텐츠 우선)
+        const previewCount = cat.id === 'test' ? 5 : 3;
         return (
           <section key={cat.id}>
             <div className="flex items-center justify-between mb-3">
@@ -88,15 +98,15 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="space-y-2.5">
-              {items.slice(0, 3).map((c) => (
+              {items.slice(0, previewCount).map((c) => (
                 <ContentCard key={c.slug} content={c} />
               ))}
-              {items.length > 3 && (
+              {items.length > previewCount && (
                 <Link
                   href={`/c/${cat.id}`}
                   className="block text-center py-3 text-sm text-primary font-medium bg-primary-light rounded-xl hover:bg-purple-100 transition-colors"
                 >
-                  {items.length - 3}개 더 보기
+                  {items.length - previewCount}개 더 보기
                 </Link>
               )}
             </div>
