@@ -5,7 +5,7 @@ import { generateColorMemoryResult } from '@/engine/game';
 import ResultView from './ResultView';
 import GameLeaderboard from '@/components/game/GameLeaderboard';
 
-const STORAGE_KEY = 'color-memory-leaderboard';
+const GAME_SLUG = 'color-memory';
 
 const COLORS = [
   { id: 'red',    label: '🔴', bg: 'bg-red-500',    dim: 'bg-red-200',    text: 'text-white' },
@@ -152,7 +152,7 @@ export default function ColorMemoryGame() {
       <div className="space-y-4">
         <ResultView result={result} slug="color-memory" />
         <GameLeaderboard
-          storageKey={STORAGE_KEY}
+          gameSlug={GAME_SLUG}
           scoreLabel="단계"
           sortOrder="desc"
           currentNickname={nickname}

@@ -5,7 +5,7 @@ import { generateNumberMemoryResult } from '@/engine/game';
 import ResultView from './ResultView';
 import GameLeaderboard from '@/components/game/GameLeaderboard';
 
-const STORAGE_KEY = 'number-memory-leaderboard';
+const GAME_SLUG = 'number-memory';
 const SHOW_DURATION_BASE = 2000; // 기본 표시 시간 (ms)
 const SHOW_DURATION_PER_DIGIT = 500; // 자릿수당 추가 시간
 
@@ -136,7 +136,7 @@ export default function NumberMemoryGame() {
       <div className="space-y-4">
         <ResultView result={result} slug="number-memory" />
         <GameLeaderboard
-          storageKey={STORAGE_KEY}
+          gameSlug={GAME_SLUG}
           scoreLabel="자리"
           sortOrder="desc"
           currentNickname={nickname}

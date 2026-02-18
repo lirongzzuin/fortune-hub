@@ -3,48 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { generateGameResult } from '@/engine/game';
 import ResultView from './ResultView';
+import GameLeaderboard from '@/components/game/GameLeaderboard';
 
-type GameState = 'ready' | 'waiting' | 'go' | 'too-early' | 'done' | 'finished' | 'nickname' | 'leaderboard';
+type GameState = 'ready' | 'waiting' | 'go' | 'too-early' | 'done' | 'finished' | 'leaderboard';
 
 const TOTAL_ROUNDS = 5;
-const LEADERBOARD_KEY = 'reaction-tap-leaderboard';
-const MAX_ENTRIES = 20;
-
-interface LeaderboardEntry {
-  nickname: string;
-  avgMs: number;
-  date: string; // YYYY-MM-DD
-}
-
-function loadLeaderboard(): LeaderboardEntry[] {
-  try {
-    const raw = localStorage.getItem(LEADERBOARD_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw) as LeaderboardEntry[];
-  } catch {
-    return [];
-  }
-}
-
-function saveToLeaderboard(entry: LeaderboardEntry): LeaderboardEntry[] {
-  try {
-    const existing = loadLeaderboard();
-    const updated = [...existing, entry]
-      .sort((a, b) => a.avgMs - b.avgMs)
-      .slice(0, MAX_ENTRIES);
-    localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(updated));
-    return updated;
-  } catch {
-    return [];
-  }
-}
-
-function getRankLabel(rank: number): string {
-  if (rank === 1) return '🥇';
-  if (rank === 2) return '🥈';
-  if (rank === 3) return '🥉';
-  return `${rank}위`;
-}
 
 export default function ReactionTapGame() {
   const [state, setState] = useState<GameState>('ready');
@@ -52,9 +15,8 @@ export default function ReactionTapGame() {
   const [times, setTimes] = useState<number[]>([]);
   const [currentTime, setCurrentTime] = useState<number | null>(null);
   const [nickname, setNickname] = useState('');
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-  const [myRank, setMyRank] = useState<number | null>(null);
-  const [myAvg, setMyAvg] = useState<number>(0);
+  const [submittedNickname, setSubmittedNickname] = useState('');
+  const [avgMs, setAvgMs] = useState(0);
   const goTimeRef = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -101,21 +63,9 @@ export default function ReactionTapGame() {
   };
 
   const handleSubmitNickname = () => {
-    const name = nickname.trim() || '익명';
     const avg = Math.round(times.reduce((a, b) => a + b, 0) / times.length);
-    setMyAvg(avg);
-
-    const entry: LeaderboardEntry = {
-      nickname: name.slice(0, 10), // 최대 10자
-      avgMs: avg,
-      date: new Date().toISOString().slice(0, 10),
-    };
-
-    const updated = saveToLeaderboard(entry);
-    setLeaderboard(updated);
-
-    const rank = updated.findIndex(e => e.nickname === entry.nickname && e.avgMs === entry.avgMs) + 1;
-    setMyRank(rank > 0 ? rank : null);
+    setAvgMs(avg);
+    setSubmittedNickname(nickname.trim() || '익명');
     setState('leaderboard');
   };
 
@@ -124,7 +74,8 @@ export default function ReactionTapGame() {
     setTimes([]);
     setCurrentTime(null);
     setNickname('');
-    setMyRank(null);
+    setSubmittedNickname('');
+    setAvgMs(0);
     setState('ready');
   };
 
@@ -137,11 +88,11 @@ export default function ReactionTapGame() {
     return (
       <div className="space-y-4">
         <ResultView result={result} slug="reaction-tap" />
-
-        {/* 닉네임 입력 */}
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="font-bold text-gray-900 mb-1">🏆 랭킹에 등록하기</h3>
-          <p className="text-xs text-gray-500 mb-3">닉네임을 입력하면 이 기기 랭킹에 기록됩니다 (상위 {MAX_ENTRIES}명)</p>
+          <h3 className="font-bold text-gray-900 mb-1">🏆 전체 랭킹에 등록하기</h3>
+          <p className="text-xs text-gray-500 mb-3">
+            닉네임을 입력하면 전 세계 랭킹에 기록됩니다!
+          </p>
           <div className="flex gap-2">
             <input
               type="text"
@@ -172,57 +123,20 @@ export default function ReactionTapGame() {
 
   // 리더보드 표시
   if (state === 'leaderboard') {
-    const avg = myAvg;
     const best = Math.min(...times);
-    const result = generateGameResult(avg, times.length, best);
+    const result = generateGameResult(avgMs, times.length, best);
 
     return (
       <div className="space-y-4">
         <ResultView result={result} slug="reaction-tap" />
-
-        {/* 리더보드 */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6">
-          <h3 className="font-bold text-gray-900 mb-3">🏆 이 기기 랭킹 (상위 {MAX_ENTRIES}명)</h3>
-          {myRank && (
-            <p className="text-sm text-blue-600 font-medium mb-3">
-              내 순위: {getRankLabel(myRank)} — 평균 {avg}ms
-            </p>
-          )}
-          <div className="space-y-2">
-            {leaderboard.map((entry, i) => {
-              const isMe = myRank === i + 1 &&
-                entry.avgMs === avg &&
-                entry.nickname === (nickname.trim() || '익명');
-              return (
-                <div
-                  key={i}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm ${
-                    isMe ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50'
-                  }`}
-                >
-                  <span className="w-8 text-center font-bold text-gray-500">
-                    {getRankLabel(i + 1)}
-                  </span>
-                  <span className={`flex-1 font-medium ${isMe ? 'text-blue-700' : 'text-gray-700'}`}>
-                    {entry.nickname} {isMe ? '← 나' : ''}
-                  </span>
-                  <span className={`font-bold ${isMe ? 'text-blue-600' : 'text-gray-500'}`}>
-                    {entry.avgMs}ms
-                  </span>
-                  <span className="text-xs text-gray-400">{entry.date}</span>
-                </div>
-              );
-            })}
-          </div>
-          <p className="text-xs text-gray-400 mt-3 text-center">* 이 기기에서 기록된 랭킹입니다</p>
-        </div>
-
-        <button
-          onClick={handleRestart}
-          className="w-full py-3 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-colors"
-        >
-          다시 도전하기
-        </button>
+        <GameLeaderboard
+          gameSlug="reaction-tap"
+          scoreLabel="ms"
+          sortOrder="asc"
+          currentNickname={submittedNickname}
+          currentScore={avgMs}
+          onRestart={handleRestart}
+        />
       </div>
     );
   }
@@ -255,11 +169,7 @@ export default function ReactionTapGame() {
             ? 'bg-yellow-400'
             : 'bg-gray-50 border border-gray-200'
         }`}
-        onClick={
-          state === 'waiting' || state === 'go'
-            ? handleTap
-            : undefined
-        }
+        onClick={state === 'waiting' || state === 'go' ? handleTap : undefined}
       >
         {state === 'ready' && (
           <div>
@@ -311,9 +221,13 @@ export default function ReactionTapGame() {
             <p className="text-5xl mb-4">⚡</p>
             <p className="text-3xl font-bold text-blue-600 mb-2">{currentTime}ms</p>
             <p className="text-sm text-gray-500 mb-4">
-              {currentTime! < 250 ? '번개 같은 반응!' :
-               currentTime! < 350 ? '꽤 빠르다!' :
-               currentTime! < 450 ? '나쁘지 않다!' : '좀 더 집중해보자!'}
+              {currentTime! < 250
+                ? '번개 같은 반응!'
+                : currentTime! < 350
+                ? '꽤 빠르다!'
+                : currentTime! < 450
+                ? '나쁘지 않다!'
+                : '좀 더 집중해보자!'}
             </p>
             <button
               onClick={startRound}
@@ -327,7 +241,7 @@ export default function ReactionTapGame() {
 
       {/* 이전 기록 */}
       {times.length > 0 && (
-        <div className="flex gap-2 justify-center">
+        <div className="flex gap-2 justify-center flex-wrap">
           {times.map((t, i) => (
             <span
               key={i}
