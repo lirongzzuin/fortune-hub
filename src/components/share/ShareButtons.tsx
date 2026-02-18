@@ -29,7 +29,6 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
     try {
       await navigator.clipboard.writeText(shareUrl);
     } catch {
-      // clipboard API 미지원 fallback
       const textarea = document.createElement('textarea');
       textarea.value = shareUrl;
       document.body.appendChild(textarea);
@@ -44,46 +43,46 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
   const handleKakaoShare = () => {
     if (typeof window === 'undefined') return;
 
-    // SDK 로딩 여부 확인
+    // SDK 초기화 여부 확인
     if (!window.Kakao || !window.Kakao.isInitialized()) {
       setKakaoStatus('error');
       setTimeout(() => setKakaoStatus('idle'), 3000);
-      handleCopyLink(); // 링크 복사로 fallback
+      handleCopyLink();
       return;
     }
 
-    // SITE_URL trailing slash 제거하여 이미지 URL 정상화
-    const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL || '';
-    const siteUrl = rawSiteUrl.replace(/\/$/, '');
-
-    // 공유 텍스트에서 첫 줄(요약)과 해시태그 라인 추출
-    const lines = text.split('\n');
+    // 공유 텍스트 가공 (Kakao description 최대 200자)
+    const lines = text.split('\n').filter(l => l.trim());
     const firstLine = lines[0] ?? '';
     const hashLine = lines.find(l => l.startsWith('#')) ?? '';
-    const description = hashLine ? `${firstLine}\n${hashLine}` : firstLine;
-
-    // imageUrl: 유효한 URL일 때만 포함 (undefined를 속성으로 넘기면 SDK 오류 발생)
-    const content = siteUrl
-      ? {
-          title,
-          description,
-          imageUrl: `${siteUrl}/og-image.png`,
-          link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
-        }
-      : {
-          title,
-          description,
-          link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
-        };
+    const rawDesc = hashLine ? `${firstLine} ${hashLine}` : firstLine;
+    const description = rawDesc.slice(0, 200);
 
     try {
+      /**
+       * Kakao.Share.sendDefault — 기본 템플릿으로 메시지 발송
+       * 공식 문서: https://developers.kakao.com/docs/latest/ko/kakaotalk-share/js-link
+       *
+       * objectType: 'feed' — 하나의 콘텐츠를 소개하는 피드형 메시지
+       * content.imageUrl 생략: 공개된 OG 이미지가 없을 경우 제외
+       */
       window.Kakao.Share.sendDefault({
         objectType: 'feed',
-        content,
+        content: {
+          title: title.slice(0, 200),
+          description,
+          link: {
+            mobileWebUrl: shareUrl,
+            webUrl: shareUrl,
+          },
+        },
         buttons: [
           {
             title: '나도 해보기',
-            link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
+            link: {
+              mobileWebUrl: shareUrl,
+              webUrl: shareUrl,
+            },
           },
         ],
       });
@@ -107,7 +106,7 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
 
       {kakaoStatus === 'error' && (
         <p className="text-xs text-center text-orange-500 bg-orange-50 rounded-lg px-3 py-2">
-          카카오 SDK 준비 중입니다. 링크가 복사됐으니 카카오톡에 직접 붙여넣어 주세요.
+          카카오 연결에 실패했습니다. 링크가 복사됐으니 카카오톡에 직접 붙여넣어 주세요.
         </p>
       )}
 
@@ -118,7 +117,7 @@ export default function ShareButtons({ title, text, url }: ShareButtonsProps) {
       </div>
 
       <div className="flex gap-2 justify-center flex-wrap">
-        {/* 기기 공유 (모바일) */}
+        {/* 기기 공유 (모바일 Safari/Chrome) */}
         {typeof navigator !== 'undefined' && 'share' in navigator && (
           <button
             onClick={handleNativeShare}
