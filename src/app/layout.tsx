@@ -42,6 +42,9 @@ export const metadata: Metadata = {
   },
   verification: {
       google: '_8kR3mxQvuCzrU4YUCq2jIPeTlOrOHz_R0xTTeno9sQ',
+      other: {
+        'naver-site-verification': ['073305893e7a27c56a7ed516c4335d2951d5f73e'],  // ← 네이버 코드
+      },
     },
 };
 
