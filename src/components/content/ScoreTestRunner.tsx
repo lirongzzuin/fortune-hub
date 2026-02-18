@@ -23,7 +23,7 @@ interface ScoreTestData {
 // ─── 각 테스트 데이터 ──────────────────────────────────────────────────
 const TESTS: Record<string, ScoreTestData> = {
   'red-flag-test': {
-    yesLabel: '🚩 해당돼요', noLabel: '😇 아니에요',
+    yesLabel: '해당돼요', noLabel: '아니에요',
     headerBg: 'from-red-500 to-pink-600', headerText: '연애 레드플래그 체크', headerEmoji: '🚩',
     pickCount: 12,
     questions: [
@@ -113,7 +113,7 @@ const TESTS: Record<string, ScoreTestData> = {
   },
 
   'brain-rot-level': {
-    yesLabel: '✅ 완전 나잖아?', noLabel: '🙅 아니에요',
+    yesLabel: '맞아요', noLabel: '아니에요',
     headerBg: 'from-green-500 to-teal-600', headerText: '뇌 썩음 레벨 측정기', headerEmoji: '🧟',
     pickCount: 10,
     questions: [
@@ -203,7 +203,7 @@ const TESTS: Record<string, ScoreTestData> = {
   },
 
   'npc-test': {
-    yesLabel: '😔 맞아요', noLabel: '✨ 아니에요',
+    yesLabel: '맞아요', noLabel: '아니에요',
     headerBg: 'from-blue-500 to-indigo-600', headerText: '나는 NPC인가 주인공인가?', headerEmoji: '🎮',
     pickCount: 10,
     questions: [
@@ -293,7 +293,7 @@ const TESTS: Record<string, ScoreTestData> = {
   },
 
   'gifted-burnout': {
-    yesLabel: '✋ 맞아요', noLabel: '🙅 아니에요',
+    yesLabel: '맞아요', noLabel: '아니에요',
     headerBg: 'from-amber-500 to-yellow-600', headerText: '영재 번아웃 체크', headerEmoji: '🎓',
     pickCount: 12,
     questions: [
@@ -479,31 +479,37 @@ export default function ScoreTestRunner({ slug }: Props) {
           </p>
 
           <div className="grid grid-cols-2 gap-3">
+            {/* YES 버튼 */}
             <button
               onClick={() => handleAnswer(true)}
               disabled={selected !== null}
-              className={`py-4 px-3 rounded-xl border-2 font-bold text-sm transition-all active:scale-95 ${
+              className={`py-5 px-3 rounded-2xl border-2 transition-all active:scale-95 flex flex-col items-center gap-1 ${
                 selected === true
-                  ? 'border-red-400 bg-red-50 text-red-600'
+                  ? 'border-emerald-400 bg-emerald-50'
                   : selected === false
-                  ? 'border-gray-100 text-gray-300'
-                  : 'border-red-200 text-red-500 hover:bg-red-50'
+                  ? 'border-gray-100 opacity-30'
+                  : 'border-emerald-200 hover:bg-emerald-50'
               }`}
             >
-              {data.yesLabel}
+              <span className="text-4xl leading-none">⭕</span>
+              <span className={`text-base font-black mt-1 ${selected === true ? 'text-emerald-600' : 'text-emerald-500'}`}>YES</span>
+              <span className={`text-xs ${selected === true ? 'text-emerald-500' : 'text-gray-400'}`}>{data.yesLabel}</span>
             </button>
+            {/* NO 버튼 */}
             <button
               onClick={() => handleAnswer(false)}
               disabled={selected !== null}
-              className={`py-4 px-3 rounded-xl border-2 font-bold text-sm transition-all active:scale-95 ${
+              className={`py-5 px-3 rounded-2xl border-2 transition-all active:scale-95 flex flex-col items-center gap-1 ${
                 selected === false
-                  ? 'border-blue-400 bg-blue-50 text-blue-600'
+                  ? 'border-red-400 bg-red-50'
                   : selected === true
-                  ? 'border-gray-100 text-gray-300'
-                  : 'border-blue-200 text-blue-500 hover:bg-blue-50'
+                  ? 'border-gray-100 opacity-30'
+                  : 'border-red-200 hover:bg-red-50'
               }`}
             >
-              {data.noLabel}
+              <span className="text-4xl leading-none">❌</span>
+              <span className={`text-base font-black mt-1 ${selected === false ? 'text-red-600' : 'text-red-500'}`}>NO</span>
+              <span className={`text-xs ${selected === false ? 'text-red-500' : 'text-gray-400'}`}>{data.noLabel}</span>
             </button>
           </div>
         </div>
