@@ -10,6 +10,7 @@ import {
 } from './types';
 import { seedIndex, seedPick, seedScore } from './hash';
 import { generatePersonalDetail } from './personalization';
+import { calcSaju, ELEMENT_FORTUNES } from './saju_calc';
 import templatesData from '../content/templates/fortune_templates.v1.json';
 
 const templates: FortuneTemplate[] = templatesData.templates as FortuneTemplate[];
@@ -157,6 +158,27 @@ export function generateFortune(
 
   // 키워드 3개 선택
   const keywords = seedPick(KEYWORD_POOL, seed.daySeed, 3, 800);
+
+  // ── 명리학 분석 섹션 (생년월일이 있는 경우) ──
+  if (input.birthdate) {
+    const saju = calcSaju(input.birthdate as string);
+    if (saju && saju.isValid) {
+      const domFortune = ELEMENT_FORTUNES[saju.dominantElement];
+      const lackFortune = ELEMENT_FORTUNES[saju.lackingElement];
+      const sajuText =
+        `일주(日柱) ${saju.dayPillar.label}를 가진 당신의 오행은 ` +
+        `${domFortune.label}이 강하게 작용하고 있다. ` +
+        `${domFortune.todayFlow} ` +
+        `한편 ${lackFortune.label} 기운이 부족한 날이므로, ` +
+        `${lackFortune.lackingAdvice}`;
+      detailSections.push({
+        area: 'saju',
+        label: '명리학 분석',
+        emoji: '☯️',
+        text: sajuText,
+      });
+    }
+  }
 
   // 개인화 디테일
   const personalDetail = generatePersonalDetail(

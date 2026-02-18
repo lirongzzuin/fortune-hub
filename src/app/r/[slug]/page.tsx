@@ -14,6 +14,8 @@ import NumberMemoryGame from '@/components/content/NumberMemoryGame';
 import BalanceGame from '@/components/content/BalanceGame';
 import ScoreTestRunner from '@/components/content/ScoreTestRunner';
 import MBTIRunner from '@/components/content/MBTIRunner';
+import LoveLangRunner from '@/components/content/LoveLangRunner';
+import AttachmentRunner from '@/components/content/AttachmentRunner';
 import { getQuestionPack } from '@/content/questions';
 
 interface Props {
@@ -29,7 +31,9 @@ export function generateStaticParams() {
       c.type === 'game' ||
       c.type === 'balance-game' ||
       c.type === 'score-test' ||
-      c.type === 'mbti-test'
+      c.type === 'mbti-test' ||
+      c.type === 'love-language' ||
+      c.type === 'attachment-style'
     )
     .map((c) => ({ slug: c.slug }));
 }
@@ -115,7 +119,25 @@ export default function ResultPage({ params, searchParams }: Props) {
     return (
       <div className="space-y-4">
         <BackHeader slug={params.slug} title={content.title} />
-        <BalanceGame />
+        <BalanceGame slug={params.slug} />
+      </div>
+    );
+  }
+
+  if (content.type === 'love-language') {
+    return (
+      <div className="space-y-4">
+        <BackHeader slug={params.slug} title={content.title} />
+        <LoveLangRunner />
+      </div>
+    );
+  }
+
+  if (content.type === 'attachment-style') {
+    return (
+      <div className="space-y-4">
+        <BackHeader slug={params.slug} title={content.title} />
+        <AttachmentRunner />
       </div>
     );
   }
