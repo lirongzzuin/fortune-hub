@@ -94,6 +94,10 @@ export default function InputForm({ content }: InputFormProps) {
     }
   };
 
+  // 경쟁형 콘텐츠만 시작 페이지에 순위표 미리보기 표시
+  const COMPETITIVE_TYPES = new Set(['game', 'quiz', 'balance-game', 'score-test']);
+  const showLeaderboard = COMPETITIVE_TYPES.has(content.type);
+
   if (content.inputSchema.length === 0) {
     // 입력 없이 바로 시작 (테스트/퀴즈/게임)
     return (
@@ -104,7 +108,7 @@ export default function InputForm({ content }: InputFormProps) {
         >
           시작하기
         </button>
-        <LeaderboardPreview slug={content.slug} />
+        {showLeaderboard && <LeaderboardPreview slug={content.slug} />}
       </div>
     );
   }

@@ -8,29 +8,32 @@ interface Entry {
   created_at: string;
 }
 
-// 슬러그별 점수 단위 (빈 문자열 = 참여자 명단 모드)
+// 슬러그별 점수 단위 — 경쟁형 콘텐츠만 포함
 const SCORE_LABELS: Record<string, string> = {
-  'reaction-tap':          'ms',
-  'color-memory':          '단계',
-  'number-memory':         '자리',
-  'red-flag-test':         '점',
-  'brain-rot-level':       '점',
-  'npc-test':              '점',
-  'gifted-burnout':        '점',
-  'hell-balance':          'A선택',
-  'moral-dilemma':         'A선택',
-  'one-minute-quiz':       '정답',
-  'physics-quiz':          '정답',
-  'chemistry-quiz':        '정답',
-  'biology-quiz':          '정답',
-  'world-capitals-quiz':   '정답',
-  'world-history-quiz':    '정답',
-  // 완료형 (점수 없음)
-  'mbti-situation':        '',
-  'chatroom-role-test':    '',
-  'work-meeting-type':     '',
-  'love-language-test':    '',
-  'attachment-style-test': '',
+  // 미니 게임
+  'reaction-tap':             'ms',
+  'color-memory':             '단계',
+  'number-memory':            '자리',
+  // 밸런스 게임
+  'hell-balance':             'A선택',
+  'moral-dilemma':            'A선택',
+  // 퀴즈
+  'one-minute-quiz':          '정답',
+  'physics-quiz':             '정답',
+  'chemistry-quiz':           '정답',
+  'biology-quiz':             '정답',
+  'world-capitals-quiz':      '정답',
+  'world-history-quiz':       '정답',
+  // 점수형 테스트
+  'red-flag-test':            '점',
+  'brain-rot-level':          '점',
+  'npc-test':                 '점',
+  'gifted-burnout':           '점',
+  'rizz-test':                '점',
+  'delulu-test':              '점',
+  'main-character-syndrome':  '점',
+  'touch-grass-test':         '점',
+  'sigma-mindset':            '점',
 };
 
 function getRankEmoji(rank: number): string {

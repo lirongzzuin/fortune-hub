@@ -1,7 +1,6 @@
 'use client';
 
 import ResultView from './ResultView';
-import LeaderboardSection from '@/components/game/LeaderboardSection';
 import { GenerateResultOutput } from '@/engine/types';
 
 const ZODIAC = [
@@ -199,7 +198,6 @@ export default function ZodiacRunner({ birthdate }: Props) {
 
   return (
     <div className="space-y-4">
-      <LeaderboardSection slug="zodiac-fortune" score={1} scoreLabel="" sortOrder="desc" />
       <div className="bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl p-8 text-center shadow-lg">
         <div className="text-6xl mb-3">{z.emoji}</div>
         <h2 className="text-2xl font-black text-white mb-1">{z.sign}</h2>

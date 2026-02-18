@@ -31,26 +31,25 @@ const SLUG_CONFIG: Record<string, { order: 'asc' | 'desc'; maxScore: number }> =
   // 숫자 기억 게임 (자리, 높을수록 좋음)
   'number-memory':         { order: 'desc', maxScore: 30    },
   // 점수형 테스트 (높을수록 더 해당)
-  'red-flag-test':         { order: 'desc', maxScore: 50    },
-  'brain-rot-level':       { order: 'desc', maxScore: 50    },
-  'npc-test':              { order: 'desc', maxScore: 50    },
-  'gifted-burnout':        { order: 'desc', maxScore: 50    },
+  'red-flag-test':            { order: 'desc', maxScore: 50    },
+  'brain-rot-level':          { order: 'desc', maxScore: 50    },
+  'npc-test':                 { order: 'desc', maxScore: 50    },
+  'gifted-burnout':           { order: 'desc', maxScore: 50    },
+  'rizz-test':                { order: 'desc', maxScore: 50    },
+  'delulu-test':              { order: 'desc', maxScore: 50    },
+  'main-character-syndrome':  { order: 'desc', maxScore: 50    },
+  'touch-grass-test':         { order: 'desc', maxScore: 50    },
+  'sigma-mindset':            { order: 'desc', maxScore: 50    },
   // 밸런스 게임 (A 선택 횟수)
-  'hell-balance':          { order: 'desc', maxScore: 15    },
-  'moral-dilemma':         { order: 'desc', maxScore: 25    },
+  'hell-balance':             { order: 'desc', maxScore: 15    },
+  'moral-dilemma':            { order: 'desc', maxScore: 25    },
   // 퀴즈 (정답 수, 높을수록 좋음)
-  'one-minute-quiz':       { order: 'desc', maxScore: 30    },
-  'physics-quiz':          { order: 'desc', maxScore: 30    },
-  'chemistry-quiz':        { order: 'desc', maxScore: 30    },
-  'biology-quiz':          { order: 'desc', maxScore: 30    },
-  'world-capitals-quiz':   { order: 'desc', maxScore: 30    },
-  'world-history-quiz':    { order: 'desc', maxScore: 30    },
-  // 성격·유형 테스트 (완료=1, 참여자 명단 표시)
-  'mbti-situation':        { order: 'desc', maxScore: 1     },
-  'chatroom-role-test':    { order: 'desc', maxScore: 1     },
-  'work-meeting-type':     { order: 'desc', maxScore: 1     },
-  'love-language-test':    { order: 'desc', maxScore: 1     },
-  'attachment-style-test': { order: 'desc', maxScore: 1     },
+  'one-minute-quiz':          { order: 'desc', maxScore: 30    },
+  'physics-quiz':             { order: 'desc', maxScore: 30    },
+  'chemistry-quiz':           { order: 'desc', maxScore: 30    },
+  'biology-quiz':             { order: 'desc', maxScore: 30    },
+  'world-capitals-quiz':      { order: 'desc', maxScore: 30    },
+  'world-history-quiz':       { order: 'desc', maxScore: 30    },
 };
 
 const DEFAULT_CONFIG = { order: 'desc' as const, maxScore: 100_000 };

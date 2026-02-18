@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
 import { GenerateResultOutput } from '@/engine/types';
-import LeaderboardSection from '@/components/game/LeaderboardSection';
 
 type AStyle = 'secure' | 'anxious' | 'avoidant' | 'disorganized';
 
@@ -247,8 +246,6 @@ export default function AttachmentRunner() {
 
     return (
       <div className="space-y-4">
-        {/* 참여자 랭킹 등록 */}
-        <LeaderboardSection slug="attachment-style-test" score={1} scoreLabel="" sortOrder="desc" />
         <div className={`bg-gradient-to-br ${r.visual.gradient} rounded-2xl p-8 text-center shadow-lg`}>
           <div className="flex justify-center gap-3 mb-3">
             {r.visual.emojis.map((em, i) => <span key={i} className="text-5xl">{em}</span>)}

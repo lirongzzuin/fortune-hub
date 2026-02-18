@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
-import LeaderboardSection from '@/components/game/LeaderboardSection';
 import { GenerateResultOutput } from '@/engine/types';
 
 /* ── 22 Major Arcana ── */
@@ -118,7 +117,6 @@ export default function TarotRunner() {
 
     return (
       <div className="space-y-4">
-        <LeaderboardSection slug="tarot-daily" score={1} scoreLabel="" sortOrder="desc" />
         {/* 카드 결과 카드 */}
         <div className="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-2xl p-6 text-center shadow-lg">
           <p className="text-white/60 text-xs mb-3">오늘의 3장 타로</p>
