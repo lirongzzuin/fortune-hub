@@ -15,7 +15,10 @@
       "Bash(node -e:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "Bash(git push:*)",
+      "Bash(npm install:*)",
+      "WebFetch(domain:developers.kakao.com)"
     ]
   }
 }
