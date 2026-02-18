@@ -463,7 +463,7 @@ export default function ScoreTestRunner({ slug }: Props) {
       </div>
 
       {/* 질문 카드 */}
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+      <div key={current} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
         <div className={`bg-gradient-to-r ${data.headerBg} px-5 py-3 flex items-center gap-2`}>
           <span className="text-white text-base">{data.headerEmoji}</span>
           <span className="text-white font-bold text-sm">{data.headerText}</span>

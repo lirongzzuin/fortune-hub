@@ -317,7 +317,7 @@ export default function LoveLangRunner() {
         <span className="text-xs text-gray-400 font-medium">{current + 1}/{questions.length}</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+      <div key={current} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-xs font-medium text-pink-600 bg-pink-50 px-2.5 py-1 rounded-full">
             💝 두 가지 중 더 마음에 드는 것을 고르세요

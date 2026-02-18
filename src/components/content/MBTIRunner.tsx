@@ -309,7 +309,7 @@ export default function MBTIRunner() {
         </span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+      <div key={current} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
         <p className="text-base font-bold text-gray-900 mb-5 leading-snug">{q.text}</p>
         <div className="space-y-3">
           {(['a', 'b'] as const).map((choice) => {

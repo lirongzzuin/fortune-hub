@@ -307,7 +307,7 @@ export default function BalanceGame({ slug }: Props) {
         <span className="text-xs text-gray-400 font-medium">{current + 1}/{questions.length}</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+      <div key={current} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
         <div className={`bg-gradient-to-r ${headerColor} px-5 py-3 flex items-center gap-2`}>
           <span className="text-white font-black text-sm">{headerEmoji} {headerText}</span>
           <span className="ml-auto text-white/70 text-xs">Q{current + 1}</span>

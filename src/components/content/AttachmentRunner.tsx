@@ -258,7 +258,7 @@ export default function AttachmentRunner() {
         <span className="text-xs text-gray-400 font-medium">{current + 1}/{questions.length}</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+      <div key={current} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-xs font-medium text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">
             🫂 솔직한 내 반응을 골라보세요
