@@ -91,7 +91,7 @@ export default function ResultPage({ params, searchParams }: Props) {
           </Link>
           <h1 className="text-base font-bold text-gray-900">{content.title}</h1>
         </div>
-        <QuizRunner />
+        <QuizRunner slug={params.slug} />
       </div>
     );
   }

@@ -2,19 +2,25 @@
 
 import { useState } from 'react';
 import { createSeedContext } from '@/engine/hash';
-import { getDailyQuizQuestions, generateQuizResult } from '@/engine/quiz';
+import { getDailyQuizQuestions, generateQuizResult, QUIZ_META } from '@/engine/quiz';
 import { getToday } from '@/lib/utils';
 import ResultView from './ResultView';
 
-export default function QuizRunner() {
+interface QuizRunnerProps {
+  slug: string;
+}
+
+export default function QuizRunner({ slug }: QuizRunnerProps) {
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [finished, setFinished] = useState(false);
 
-  const seed = createSeedContext({ type: 'quiz' }, getToday());
-  const questions = getDailyQuizQuestions(seed);
+  // 슬러그를 시드에 포함해 퀴즈마다 다른 문제 세트가 선택되도록 함
+  const seed = createSeedContext({ type: `quiz-${slug}` }, getToday());
+  const questions = getDailyQuizQuestions(seed, slug);
+  const meta = QUIZ_META[slug] ?? QUIZ_META['one-minute-quiz'];
 
   const handleAnswer = (idx: number) => {
     if (answered) return;
@@ -36,14 +42,15 @@ export default function QuizRunner() {
   };
 
   if (finished) {
-    const result = generateQuizResult(score, questions.length, seed);
-    return <ResultView result={result} slug="one-minute-quiz" />;
+    const result = generateQuizResult(score, questions.length, seed, slug);
+    return <ResultView result={result} slug={slug} />;
   }
 
   const q = questions[currentQ];
+  const pct = Math.round(((currentQ + (answered ? 1 : 0)) / questions.length) * 100);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* 진행 바 */}
       <div className="flex items-center gap-3">
         <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -57,14 +64,26 @@ export default function QuizRunner() {
         </span>
       </div>
 
-      {/* 문제 */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6">
-        <p className="text-lg font-bold text-gray-900 mb-4">{q.question}</p>
-        <div className="space-y-2">
+      {/* 퀴즈 카테고리 배지 */}
+      <div className="flex items-center gap-2">
+        <span className="text-base">{meta.emoji}</span>
+        <span className="text-xs font-medium text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full">
+          {meta.title}
+        </span>
+      </div>
+
+      {/* 문제 카드 */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+        <p className="text-base font-bold text-gray-900 mb-5 leading-snug">{q.question}</p>
+
+        <div className="space-y-2.5">
           {q.options.map((opt, i) => {
-            let btnClass = 'w-full text-left px-4 py-3 rounded-xl border transition-all text-sm ';
+            let btnClass =
+              'w-full text-left px-4 py-3 rounded-xl border text-sm font-medium transition-all ';
+
             if (!answered) {
-              btnClass += 'border-gray-200 hover:border-blue-300 hover:bg-blue-50 active:scale-[0.98]';
+              btnClass +=
+                'border-gray-200 text-gray-700 hover:border-purple-300 hover:bg-purple-50 active:scale-[0.98]';
             } else if (i === q.correctIndex) {
               btnClass += 'border-green-400 bg-green-50 text-green-700';
             } else if (i === selectedIdx) {
@@ -80,7 +99,16 @@ export default function QuizRunner() {
                 className={btnClass}
                 disabled={answered}
               >
+                <span className="font-bold text-gray-400 mr-2">
+                  {['①', '②', '③', '④'][i]}
+                </span>
                 {opt}
+                {answered && i === q.correctIndex && (
+                  <span className="ml-2 text-green-500">✓</span>
+                )}
+                {answered && i === selectedIdx && i !== q.correctIndex && (
+                  <span className="ml-2 text-red-400">✗</span>
+                )}
               </button>
             );
           })}
@@ -89,16 +117,17 @@ export default function QuizRunner() {
         {answered && (
           <button
             onClick={handleNext}
-            className="w-full mt-4 py-3 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-colors"
+            className="w-full mt-5 py-3 bg-purple-500 text-white rounded-xl font-bold hover:bg-purple-600 transition-colors"
           >
-            {currentQ + 1 >= questions.length ? '결과 보기' : '다음 문제'}
+            {currentQ + 1 >= questions.length ? '결과 보기 →' : '다음 문제 →'}
           </button>
         )}
       </div>
 
-      {/* 점수 */}
-      <div className="text-center text-sm text-gray-400">
-        현재 점수: {score}/{currentQ + (answered ? 1 : 0)}
+      {/* 하단 점수 + 진행률 */}
+      <div className="flex items-center justify-between text-xs text-gray-400 px-1">
+        <span>현재 점수: <strong className="text-gray-600">{score}</strong> / {currentQ + (answered ? 1 : 0)}</span>
+        <span>정답률 {pct}%</span>
       </div>
     </div>
   );
