@@ -1,7 +1,7 @@
 // ─── Content Registry Types ───
 
 export type ContentCategory = 'fortune' | 'test' | 'quiz' | 'game';
-export type ContentType = 'fortune' | 'saju' | 'personality-test' | 'quiz' | 'game' | 'balance-game' | 'score-test' | 'mbti-test' | 'love-language' | 'attachment-style';
+export type ContentType = 'fortune' | 'saju' | 'personality-test' | 'quiz' | 'game' | 'balance-game' | 'score-test' | 'mbti-test' | 'love-language' | 'attachment-style' | 'tarot' | 'zodiac' | 'numerology';
 export type AdProvider = 'adsense' | 'coupang' | 'none';
 export type AdSlotPosition = 'A' | 'B' | 'C';
 

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ContentEntry, InputField } from '@/engine/types';
 import LeaderboardPreview from '@/components/game/LeaderboardPreview';
+import DateScrollPicker from '@/components/ui/DateScrollPicker';
 
 interface InputFormProps {
   content: ContentEntry;
@@ -47,13 +48,11 @@ export default function InputForm({ content }: InputFormProps) {
     switch (field.type) {
       case 'date':
         return (
-          <input
-            type="date"
-            value={values[field.key] || ''}
-            onChange={(e) => handleChange(field.key, e.target.value)}
-            className="w-full h-12 px-4 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-base text-gray-900 bg-white"
-            min="1900-01-01"
-            max={new Date().toISOString().split('T')[0]}
+          <DateScrollPicker
+            value={values[field.key] || '1990-01-01'}
+            onChange={(v) => handleChange(field.key, v)}
+            minYear={1920}
+            maxYear={new Date().getFullYear()}
           />
         );
       case 'text':

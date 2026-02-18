@@ -1,12 +1,11 @@
 import { contentRegistry, getAllCategories } from '@/content/registry';
 import ContentCard from '@/components/content/ContentCard';
 import AdSlot from '@/components/ad/AdSlot';
+import PopularSection from '@/components/content/PopularSection';
 import Link from 'next/link';
 
 export default function HomePage() {
   const categories = getAllCategories();
-  // 지금 인기: trending 표시된 콘텐츠 (최대 6개)
-  const trending = contentRegistry.filter(c => c.trending).slice(0, 6);
 
   return (
     <div className="space-y-8">
@@ -56,28 +55,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 인기 콘텐츠 — 가로 스크롤 */}
+      {/* 인기 콘텐츠 — 실시간 참여 횟수 기반 가로 스크롤 */}
       <section>
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-base font-bold text-gray-900">🔥 지금 인기</h2>
         </div>
-        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 -mx-4 px-4">
-          {trending.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/p/${c.slug}`}
-              className="flex-shrink-0 w-36 bg-white rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all active:scale-[0.97] overflow-hidden"
-            >
-              <div className="h-20 bg-primary-light flex items-center justify-center">
-                <span className="text-4xl">{c.emoji}</span>
-              </div>
-              <div className="p-3">
-                <p className="text-xs font-bold text-gray-900 line-clamp-2 leading-tight">{c.title}</p>
-                <p className="text-[10px] text-gray-400 mt-1 line-clamp-1">{c.subtitle}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <PopularSection />
       </section>
 
       {/* 트렌딩↓ 광고: 콘텐츠 카드들 사이에 자연스럽게 삽입 */}

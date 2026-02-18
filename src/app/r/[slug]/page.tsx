@@ -16,6 +16,8 @@ import ScoreTestRunner from '@/components/content/ScoreTestRunner';
 import MBTIRunner from '@/components/content/MBTIRunner';
 import LoveLangRunner from '@/components/content/LoveLangRunner';
 import AttachmentRunner from '@/components/content/AttachmentRunner';
+import TarotRunner from '@/components/content/TarotRunner';
+import ZodiacRunner from '@/components/content/ZodiacRunner';
 import { getQuestionPack } from '@/content/questions';
 
 interface Props {
@@ -33,7 +35,9 @@ export function generateStaticParams() {
       c.type === 'score-test' ||
       c.type === 'mbti-test' ||
       c.type === 'love-language' ||
-      c.type === 'attachment-style'
+      c.type === 'attachment-style' ||
+      c.type === 'tarot' ||
+      c.type === 'zodiac'
     )
     .map((c) => ({ slug: c.slug }));
 }
@@ -156,6 +160,26 @@ export default function ResultPage({ params, searchParams }: Props) {
       <div className="space-y-4">
         <BackHeader slug={params.slug} title={content.title} />
         <MBTIRunner />
+      </div>
+    );
+  }
+
+  if (content.type === 'tarot') {
+    return (
+      <div className="space-y-4">
+        <BackHeader slug={params.slug} title={content.title} />
+        <TarotRunner />
+      </div>
+    );
+  }
+
+  if (content.type === 'zodiac') {
+    const birthdate = input.birthdate as string;
+    if (!birthdate) redirect(`/p/${params.slug}`);
+    return (
+      <div className="space-y-4">
+        <BackHeader slug={params.slug} title={content.title} />
+        <ZodiacRunner birthdate={birthdate} />
       </div>
     );
   }
