@@ -384,6 +384,7 @@ export default function ScoreTestRunner({ slug }: Props) {
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const [selected, setSelected] = useState<boolean | null>(null);
+  const [history, setHistory] = useState<boolean[]>([]);
 
   if (!data) return null;
 
@@ -394,6 +395,7 @@ export default function ScoreTestRunner({ slug }: Props) {
     if (isYes) setScore(prev => prev + 1);
 
     setTimeout(() => {
+      setHistory(prev => [...prev, isYes]);
       if (current + 1 >= questions.length) {
         setFinished(true);
       } else {
@@ -401,6 +403,15 @@ export default function ScoreTestRunner({ slug }: Props) {
         setSelected(null);
       }
     }, 500);
+  };
+
+  const handleBack = () => {
+    if (current === 0 || history.length === 0) return;
+    const last = history[history.length - 1];
+    setHistory(prev => prev.slice(0, -1));
+    if (last) setScore(prev => prev - 1);
+    setCurrent(prev => prev - 1);
+    setSelected(null);
   };
 
   if (finished) {
@@ -512,7 +523,16 @@ export default function ScoreTestRunner({ slug }: Props) {
       </div>
 
       <div className="flex items-center justify-between text-xs text-gray-400 px-1">
-        <span>해당 항목: <strong className="text-gray-600">{score}</strong>개</span>
+        {current > 0 && selected === null ? (
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-1 text-gray-400 hover:text-gray-700 transition-colors"
+          >
+            ← 이전 문제
+          </button>
+        ) : (
+          <span>해당 항목: <strong className="text-gray-600">{score}</strong>개</span>
+        )}
         <span>진행률 {pct}%</span>
       </div>
     </div>

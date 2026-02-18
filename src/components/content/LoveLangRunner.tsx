@@ -252,6 +252,7 @@ export default function LoveLangRunner() {
   const [scores, setScores] = useState<Record<Lang, number>>({ WA: 0, QT: 0, RG: 0, AS: 0, PT: 0 });
   const [finished, setFinished] = useState(false);
   const [selected, setSelected] = useState<'a' | 'b' | null>(null);
+  const [history, setHistory] = useState<{ lang: Lang; choice: 'a' | 'b' }[]>([]);
 
   const q = questions[current];
   const handleChoice = (choice: 'a' | 'b') => {
@@ -261,9 +262,19 @@ export default function LoveLangRunner() {
     setScores(prev => ({ ...prev, [lang]: prev[lang] + 1 }));
 
     setTimeout(() => {
+      setHistory(prev => [...prev, { lang, choice }]);
       if (current + 1 >= questions.length) setFinished(true);
       else { setCurrent(prev => prev + 1); setSelected(null); }
     }, 500);
+  };
+
+  const handleBack = () => {
+    if (current === 0 || history.length === 0) return;
+    const last = history[history.length - 1];
+    setHistory(prev => prev.slice(0, -1));
+    setScores(prev => ({ ...prev, [last.lang]: prev[last.lang] - 1 }));
+    setCurrent(prev => prev - 1);
+    setSelected(null);
   };
 
   if (finished) {
@@ -345,6 +356,14 @@ export default function LoveLangRunner() {
         </div>
       </div>
 
+      {current > 0 && !selected && (
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
+        >
+          ← 이전 문제
+        </button>
+      )}
       <p className="text-xs text-center text-gray-400">
         둘 다 좋아도 더 원하는 것을 직감으로 골라보세요 💝
       </p>

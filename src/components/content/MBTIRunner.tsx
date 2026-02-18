@@ -230,6 +230,7 @@ export default function MBTIRunner() {
   const [scores, setScores] = useState<Record<Dim, number>>({ E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 });
   const [finished, setFinished] = useState(false);
   const [selected, setSelected] = useState<'a' | 'b' | null>(null);
+  const [history, setHistory] = useState<{ dim: Dim; choice: 'a' | 'b' }[]>([]);
 
   const q = questions[current];
   const handleChoice = (choice: 'a' | 'b') => {
@@ -239,9 +240,19 @@ export default function MBTIRunner() {
     setScores(prev => ({ ...prev, [dim]: prev[dim] + 1 }));
 
     setTimeout(() => {
+      setHistory(prev => [...prev, { dim, choice }]);
       if (current + 1 >= questions.length) setFinished(true);
       else { setCurrent(prev => prev + 1); setSelected(null); }
     }, 500);
+  };
+
+  const handleBack = () => {
+    if (current === 0 || history.length === 0) return;
+    const last = history[history.length - 1];
+    setHistory(prev => prev.slice(0, -1));
+    setScores(prev => ({ ...prev, [last.dim]: prev[last.dim] - 1 }));
+    setCurrent(prev => prev - 1);
+    setSelected(null);
   };
 
   if (finished) {
@@ -332,6 +343,14 @@ export default function MBTIRunner() {
         </div>
       </div>
 
+      {current > 0 && !selected && (
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
+        >
+          ← 이전 문제
+        </button>
+      )}
       <p className="text-xs text-center text-gray-400">
         정답이 없어요! 실제 상황이라면 어떻게 할지 솔직하게 골라보세요 🎯
       </p>

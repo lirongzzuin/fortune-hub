@@ -34,6 +34,13 @@ export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
     }
   };
 
+  const handleBack = () => {
+    if (currentQ === 0) return;
+    const prevQ = questionPack.questions[currentQ - 1];
+    setSelected(answers[prevQ.id] ?? null);
+    setCurrentQ(prev => prev - 1);
+  };
+
   if (finished) {
     const input: ContentInput = {};
     const result = generateTestResult(input, answers, questionPack);
@@ -75,18 +82,28 @@ export default function TestRunner({ questionPack, slug }: TestRunnerProps) {
           ))}
         </div>
 
-        {/* 다음 버튼 */}
-        <button
-          onClick={handleConfirm}
-          disabled={!selected}
-          className={`w-full mt-4 py-3 rounded-xl font-medium transition-all text-sm ${
-            selected
-              ? 'bg-purple-500 text-white hover:bg-purple-600 active:scale-[0.98]'
-              : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-          }`}
-        >
-          {currentQ + 1 >= questionPack.questions.length ? '결과 보기' : '다음'}
-        </button>
+        {/* 다음/이전 버튼 */}
+        <div className="flex items-center gap-2 mt-4">
+          {currentQ > 0 && (
+            <button
+              onClick={handleBack}
+              className="px-4 py-3 rounded-xl border border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-all text-sm"
+            >
+              ← 이전
+            </button>
+          )}
+          <button
+            onClick={handleConfirm}
+            disabled={!selected}
+            className={`flex-1 py-3 rounded-xl font-medium transition-all text-sm ${
+              selected
+                ? 'bg-purple-500 text-white hover:bg-purple-600 active:scale-[0.98]'
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+            }`}
+          >
+            {currentQ + 1 >= questionPack.questions.length ? '결과 보기' : '다음'}
+          </button>
+        </div>
       </div>
 
     </div>

@@ -193,6 +193,7 @@ export default function AttachmentRunner() {
   const [scores, setScores] = useState<Record<AStyle, number>>({ secure: 0, anxious: 0, avoidant: 0, disorganized: 0 });
   const [finished, setFinished] = useState(false);
   const [selected, setSelected] = useState<'a' | 'b' | null>(null);
+  const [history, setHistory] = useState<{ style: AStyle; choice: 'a' | 'b' }[]>([]);
 
   const q = questions[current];
   const handleChoice = (choice: 'a' | 'b') => {
@@ -202,9 +203,19 @@ export default function AttachmentRunner() {
     setScores(prev => ({ ...prev, [style]: prev[style] + 1 }));
 
     setTimeout(() => {
+      setHistory(prev => [...prev, { style, choice }]);
       if (current + 1 >= questions.length) setFinished(true);
       else { setCurrent(prev => prev + 1); setSelected(null); }
     }, 500);
+  };
+
+  const handleBack = () => {
+    if (current === 0 || history.length === 0) return;
+    const last = history[history.length - 1];
+    setHistory(prev => prev.slice(0, -1));
+    setScores(prev => ({ ...prev, [last.style]: prev[last.style] - 1 }));
+    setCurrent(prev => prev - 1);
+    setSelected(null);
   };
 
   if (finished) {
@@ -286,6 +297,14 @@ export default function AttachmentRunner() {
         </div>
       </div>
 
+      {current > 0 && !selected && (
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
+        >
+          ← 이전 문제
+        </button>
+      )}
       <p className="text-xs text-center text-gray-400">
         정답이 없어요. 가장 솔직한 반응이 가장 정확한 결과를 줍니다 🫂
       </p>

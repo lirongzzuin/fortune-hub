@@ -258,6 +258,7 @@ export default function BalanceGame({ slug }: Props) {
   const [selected, setSelected] = useState<'a' | 'b' | null>(null);
   const [finished, setFinished] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const [history, setHistory] = useState<('a' | 'b')[]>([]);
 
   const q = questions[current];
   const progress = (current / questions.length) * 100;
@@ -269,6 +270,7 @@ export default function BalanceGame({ slug }: Props) {
     if (choice === 'a') setACount(prev => prev + 1);
 
     setTimeout(() => {
+      setHistory(prev => [...prev, choice]);
       if (current + 1 >= questions.length) {
         setFinished(true);
       } else {
@@ -277,6 +279,16 @@ export default function BalanceGame({ slug }: Props) {
         setAnimating(false);
       }
     }, 600);
+  };
+
+  const handleBack = () => {
+    if (current === 0 || history.length === 0) return;
+    const last = history[history.length - 1];
+    setHistory(prev => prev.slice(0, -1));
+    if (last === 'a') setACount(prev => prev - 1);
+    setCurrent(prev => prev - 1);
+    setSelected(null);
+    setAnimating(false);
   };
 
   if (finished) {
@@ -351,13 +363,25 @@ export default function BalanceGame({ slug }: Props) {
         {isMoral ? '정답은 없어요. 당신의 가치관이 곧 답입니다 ⚖️' : '당신이라면 하나를 선택해야 한다면? 둘 다 싫어도 골라야 합니다 😈'}
       </p>
 
-      {current > 0 && (
-        <div className="flex items-center gap-2 text-xs text-gray-400 px-1">
-          <span>A 선택: <strong className="text-orange-500">{aCount}회</strong></span>
-          <span>·</span>
-          <span>B 선택: <strong className="text-purple-500">{current - aCount}회</strong></span>
-        </div>
-      )}
+      <div className="flex items-center justify-between px-1">
+        {current > 0 && !selected && !animating ? (
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition-colors"
+          >
+            ← 이전 문제
+          </button>
+        ) : (
+          <span />
+        )}
+        {current > 0 && (
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span>A: <strong className="text-orange-500">{aCount}회</strong></span>
+            <span>·</span>
+            <span>B: <strong className="text-purple-500">{current - aCount}회</strong></span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
