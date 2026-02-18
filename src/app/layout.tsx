@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
+import BottomNav from '@/components/layout/BottomNav';
 import KakaoInit from '@/components/layout/KakaoInit';
 import Script from 'next/script';
 
@@ -69,13 +69,13 @@ export default function RootLayout({
           />
         )}
       </head>
-      <body className={`${geistSans.variable} font-sans antialiased bg-gray-50 text-gray-900`}>
+      <body className={`${geistSans.variable} font-sans antialiased bg-[#f7f6f8] text-gray-900`}>
         <KakaoInit />
         <Header />
-        <main className="max-w-lg mx-auto px-4 py-6 min-h-screen">
+        <main className="max-w-lg mx-auto px-4 py-6 min-h-screen pb-28">
           {children}
         </main>
-        <Footer />
+        <BottomNav />
       </body>
     </html>
   );

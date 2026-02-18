@@ -42,18 +42,26 @@ export default function CategoryPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <section className="text-center py-4">
-        <span className="text-4xl">{cat.emoji}</span>
-        <h1 className="text-xl font-bold text-gray-900 mt-2">{cat.label}</h1>
+      {/* 카테고리 헤더 */}
+      <section className="-mx-4 -mt-6 bg-gradient-to-br from-primary to-purple-400 px-6 pt-7 pb-8 text-white">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-3xl">
+            {cat.emoji}
+          </div>
+          <div>
+            <h1 className="text-xl font-bold">{cat.label}</h1>
+            <p className="text-purple-200 text-xs mt-0.5">{items.length}개 콘텐츠</p>
+          </div>
+        </div>
       </section>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {items.map((c) => (
           <ContentCard key={c.slug} content={c} />
         ))}
       </div>
 
-      <section className="text-sm text-gray-400 leading-relaxed pt-4 border-t border-gray-100">
+      <section className="text-xs text-gray-400 leading-relaxed pt-4 border-t border-gray-100">
         <p>{CATEGORY_DESCRIPTIONS[params.category] || ''}</p>
       </section>
     </div>

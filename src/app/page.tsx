@@ -4,56 +4,114 @@ import Link from 'next/link';
 
 export default function HomePage() {
   const categories = getAllCategories();
-  const featured = contentRegistry.slice(0, 3);
+  // 오늘의 추천: 운세 1개 + 각 카테고리 대표 1개씩
+  const trending = [
+    contentRegistry.find(c => c.slug === 'today-fortune'),
+    contentRegistry.find(c => c.slug === 'chatroom-role-test'),
+    contentRegistry.find(c => c.slug === 'one-minute-quiz'),
+    contentRegistry.find(c => c.slug === 'reaction-tap'),
+    contentRegistry.find(c => c.slug === 'color-memory'),
+  ].filter(Boolean) as typeof contentRegistry;
 
   return (
     <div className="space-y-8">
-      {/* 히어로 */}
-      <section className="text-center py-4">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">소확잼</h1>
-        <p className="text-sm text-gray-500">
-          운세 · 테스트 · 퀴즈 · 게임<br />
-          매일 새로운 재미를 만나보세요
-        </p>
+      {/* 히어로 배너 */}
+      <section className="-mx-4 -mt-6 bg-gradient-to-br from-primary to-purple-400 px-6 pt-8 pb-10 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-4 right-8 text-7xl">🔮</div>
+          <div className="absolute bottom-4 right-24 text-5xl">⚡</div>
+          <div className="absolute top-12 right-32 text-4xl">🧠</div>
+        </div>
+        <div className="relative">
+          <p className="text-purple-200 text-xs font-medium mb-1 uppercase tracking-wider">매일 새로운 재미</p>
+          <h1 className="text-2xl font-bold leading-tight mb-2">
+            오늘의 운세를<br />확인해보세요
+          </h1>
+          <p className="text-purple-100 text-sm mb-5">운세 · 테스트 · 퀴즈 · 게임</p>
+          <Link
+            href="/p/today-fortune"
+            className="inline-flex items-center gap-1.5 bg-white text-primary font-bold text-sm px-5 py-2.5 rounded-xl shadow-md hover:bg-purple-50 transition-colors active:scale-95"
+          >
+            🔮 오늘의 운세 보기
+          </Link>
+        </div>
       </section>
 
-      {/* 추천 콘텐츠 */}
+      {/* 카테고리 빠른 이동 */}
       <section>
-        <h2 className="text-lg font-bold text-gray-900 mb-3">오늘의 추천</h2>
-        <div className="space-y-3">
-          {featured.map((c) => (
-            <ContentCard key={c.slug} content={c} />
+        <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+          {categories.map((cat) => (
+            <Link
+              key={cat.id}
+              href={`/c/${cat.id}`}
+              className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 bg-white rounded-xl border border-gray-100 text-sm font-medium text-gray-700 hover:border-primary/40 hover:text-primary transition-colors shadow-sm"
+            >
+              <span>{cat.emoji}</span>
+              <span>{cat.label}</span>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* 카테고리별 */}
+      {/* 인기 콘텐츠 — 가로 스크롤 */}
+      <section>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-base font-bold text-gray-900">🔥 지금 인기</h2>
+        </div>
+        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 -mx-4 px-4">
+          {trending.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/p/${c.slug}`}
+              className="flex-shrink-0 w-36 bg-white rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-md transition-all active:scale-[0.97] overflow-hidden"
+            >
+              <div className="h-20 bg-primary-light flex items-center justify-center">
+                <span className="text-4xl">{c.emoji}</span>
+              </div>
+              <div className="p-3">
+                <p className="text-xs font-bold text-gray-900 line-clamp-2 leading-tight">{c.title}</p>
+                <p className="text-[10px] text-gray-400 mt-1 line-clamp-1">{c.subtitle}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* 카테고리별 전체 목록 */}
       {categories.map((cat) => {
         const items = contentRegistry.filter(c => c.category === cat.id);
         return (
           <section key={cat.id}>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-gray-900">
+              <h2 className="text-base font-bold text-gray-900">
                 {cat.emoji} {cat.label}
               </h2>
               <Link
                 href={`/c/${cat.id}`}
-                className="text-xs text-blue-500 hover:text-blue-600"
+                className="text-xs text-primary font-medium hover:text-primary-dark transition-colors"
               >
-                더보기
+                전체보기 →
               </Link>
             </div>
-            <div className="space-y-3">
-              {items.map((c) => (
+            <div className="space-y-2.5">
+              {items.slice(0, 3).map((c) => (
                 <ContentCard key={c.slug} content={c} />
               ))}
+              {items.length > 3 && (
+                <Link
+                  href={`/c/${cat.id}`}
+                  className="block text-center py-3 text-sm text-primary font-medium bg-primary-light rounded-xl hover:bg-purple-100 transition-colors"
+                >
+                  {items.length - 3}개 더 보기
+                </Link>
+              )}
             </div>
           </section>
         );
       })}
 
       {/* SEO 텍스트 */}
-      <section className="text-sm text-gray-400 leading-relaxed space-y-2 pt-4 border-t border-gray-100">
+      <section className="text-xs text-gray-400 leading-relaxed space-y-2 pt-4 border-t border-gray-100">
         <p>
           &lsquo;소확잼&rsquo;는 매일 즐길 수 있는 가벼운 콘텐츠 허브입니다.
           생년월일 기반의 오늘의 운세, 1분 사주, 단톡방 역할 유형 테스트,
@@ -61,13 +119,10 @@ export default function HomePage() {
         </p>
         <p>
           매일 바뀌는 상식 퀴즈로 지식을 테스트하고, 반응 속도 게임으로 순발력을 확인해보세요.
-          같은 생년월일이라도 매일 조금씩 다른 결과가 나오기 때문에 매일 방문할 이유가 있습니다.
           모든 콘텐츠는 무료이며, 친구에게 공유하여 함께 즐길 수 있습니다.
         </p>
         <p>
           운세와 성격 테스트 결과는 재미와 참고를 위한 것이며, 전문적인 의학, 법률, 투자 조언이 아닙니다.
-          중요한 결정은 반드시 사용자 본인의 판단과 책임 하에 이루어져야 합니다.
-          가볍고 즐거운 마음으로 하루를 시작해보세요.
         </p>
       </section>
     </div>
