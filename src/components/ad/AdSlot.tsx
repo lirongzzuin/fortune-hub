@@ -80,7 +80,7 @@ export default function AdSlot({ provider = 'auto', slot, className = '' }: AdSl
       `&width=680&height=140`;
 
     return (
-      <div ref={adRef} className={`my-4 ${className}`}>
+      <div ref={adRef} className={`my-4 overflow-hidden ${className}`}>
         <iframe
           src={widgetUrl}
           width="100%"
@@ -89,7 +89,7 @@ export default function AdSlot({ provider = 'auto', slot, className = '' }: AdSl
           scrolling="no"
           referrerPolicy="unsafe-url"
           title="쿠팡 파트너스 추천 상품"
-          style={{ display: 'block' }}
+          style={{ display: 'block', maxWidth: '100%' }}
         />
         <p className="text-[10px] text-gray-300 text-center mt-1">
           이 광고는 쿠팡 파트너스 활동의 일환으로 수수료를 지급받습니다.

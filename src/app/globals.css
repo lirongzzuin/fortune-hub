@@ -8,9 +8,17 @@
   --primary: #8c2bee;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  /* iOS 입력 확대 방지: 16px 이하 폰트의 input에 자동 확대 방지 */
+  -webkit-text-size-adjust: 100%;
 }
 
 @layer utilities {

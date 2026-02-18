@@ -126,11 +126,11 @@ export default function ColorMemoryGame() {
               onKeyDown={e => e.key === 'Enter' && handleSubmitNickname()}
               placeholder="닉네임 (최대 10자)"
               maxLength={10}
-              className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400"
+              className="min-w-0 flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-base focus:outline-none focus:border-primary box-border"
             />
             <button
               onClick={handleSubmitNickname}
-              className="px-4 py-2 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors"
+              className="flex-shrink-0 px-4 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary-dark transition-colors"
             >
               등록
             </button>

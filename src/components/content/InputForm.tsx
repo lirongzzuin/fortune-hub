@@ -50,8 +50,7 @@ export default function InputForm({ content }: InputFormProps) {
             type="date"
             value={values[field.key] || ''}
             onChange={(e) => handleChange(field.key, e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-900 bg-white"
-            placeholder={field.placeholder}
+            className="w-full max-w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-base text-gray-900 bg-white appearance-none box-border"
             min="1900-01-01"
             max={new Date().toISOString().split('T')[0]}
           />
@@ -62,7 +61,7 @@ export default function InputForm({ content }: InputFormProps) {
             type="text"
             value={values[field.key] || ''}
             onChange={(e) => handleChange(field.key, e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-900 bg-white"
+            className="w-full max-w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-base text-gray-900 bg-white box-border"
             placeholder={field.placeholder}
             maxLength={20}
           />
@@ -72,7 +71,7 @@ export default function InputForm({ content }: InputFormProps) {
           <select
             value={values[field.key] || ''}
             onChange={(e) => handleChange(field.key, e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-900 bg-white"
+            className="w-full max-w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-base text-gray-900 bg-white box-border"
           >
             <option value="">선택하세요</option>
             {field.options?.map((opt) => (
@@ -88,7 +87,7 @@ export default function InputForm({ content }: InputFormProps) {
             type="text"
             value={values[field.key] || ''}
             onChange={(e) => handleChange(field.key, e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-gray-900 bg-white"
+            className="w-full max-w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none transition-all text-base text-gray-900 bg-white box-border"
             placeholder={field.placeholder}
           />
         );
@@ -101,7 +100,7 @@ export default function InputForm({ content }: InputFormProps) {
       <div className="mt-6">
         <button
           onClick={() => router.push(`/r/${content.slug}`)}
-          className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-opacity active:scale-[0.98]"
+          className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-base hover:bg-primary-dark transition-colors active:scale-[0.98]"
         >
           시작하기
         </button>
@@ -126,7 +125,7 @@ export default function InputForm({ content }: InputFormProps) {
 
       <button
         type="submit"
-        className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-opacity active:scale-[0.98] mt-6"
+        className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-base hover:bg-primary-dark transition-colors active:scale-[0.98] mt-6"
       >
         결과 보기
       </button>

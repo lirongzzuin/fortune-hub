@@ -110,11 +110,11 @@ export default function NumberMemoryGame() {
               onKeyDown={e => e.key === 'Enter' && handleSubmitNickname()}
               placeholder="닉네임 (최대 10자)"
               maxLength={10}
-              className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400"
+              className="min-w-0 flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-base focus:outline-none focus:border-primary box-border"
             />
             <button
               onClick={handleSubmitNickname}
-              className="px-4 py-2 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors"
+              className="flex-shrink-0 px-4 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary-dark transition-colors"
             >
               등록
             </button>
@@ -183,8 +183,8 @@ export default function NumberMemoryGame() {
         {phase === 'showing' && (
           <div className="text-center w-full">
             <p className="text-xs text-gray-400 mb-3">기억하세요! ({timeLeft}초)</p>
-            <div className="bg-teal-50 rounded-xl py-6 px-4">
-              <p className="font-mono text-4xl font-bold text-teal-700 tracking-widest break-all">
+            <div className="bg-teal-50 rounded-xl py-6 px-4 overflow-hidden">
+              <p className="font-mono text-3xl font-bold text-teal-700 tracking-wide break-all">
                 {currentNumber}
               </p>
             </div>
@@ -203,7 +203,7 @@ export default function NumberMemoryGame() {
               onKeyDown={e => e.key === 'Enter' && handleSubmit()}
               placeholder={`${digits}자리 숫자`}
               autoFocus
-              className="w-full font-mono text-2xl text-center py-4 px-3 border-2 border-teal-300 rounded-xl focus:outline-none focus:border-teal-500 tracking-widest"
+              className="w-full max-w-full font-mono text-xl text-center py-4 px-3 border-2 border-teal-300 rounded-xl focus:outline-none focus:border-teal-500 tracking-wide box-border"
             />
             <button
               onClick={handleSubmit}

@@ -101,11 +101,11 @@ export default function ReactionTapGame() {
               onKeyDown={e => e.key === 'Enter' && handleSubmitNickname()}
               placeholder="닉네임 (최대 10자)"
               maxLength={10}
-              className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-blue-400"
+              className="min-w-0 flex-1 px-3 py-2.5 rounded-xl border border-gray-200 text-base focus:outline-none focus:border-primary box-border"
             />
             <button
               onClick={handleSubmitNickname}
-              className="px-4 py-2 bg-blue-500 text-white rounded-xl text-sm font-medium hover:bg-blue-600 transition-colors"
+              className="flex-shrink-0 px-4 py-2.5 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary-dark transition-colors"
             >
               등록
             </button>
@@ -158,7 +158,7 @@ export default function ReactionTapGame() {
 
       {/* 게임 영역 */}
       <div
-        className={`rounded-2xl p-8 text-center min-h-[300px] flex flex-col items-center justify-center cursor-pointer select-none transition-colors ${
+        className={`rounded-2xl px-4 py-8 text-center min-h-[260px] flex flex-col items-center justify-center cursor-pointer select-none transition-colors ${
           state === 'ready'
             ? 'bg-blue-50 border-2 border-blue-200'
             : state === 'waiting'
