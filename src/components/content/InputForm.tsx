@@ -94,8 +94,8 @@ export default function InputForm({ content }: InputFormProps) {
     }
   };
 
-  // 경쟁형 콘텐츠만 시작 페이지에 순위표 미리보기 표시
-  const COMPETITIVE_TYPES = new Set(['game', 'quiz', 'balance-game', 'score-test']);
+  // 퀴즈·게임만 시작 페이지에 순위표 미리보기 표시 (테스트 유형 제외)
+  const COMPETITIVE_TYPES = new Set(['game', 'quiz']);
   const showLeaderboard = COMPETITIVE_TYPES.has(content.type);
 
   if (content.inputSchema.length === 0) {

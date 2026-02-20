@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
 import { GenerateResultOutput } from '@/engine/types';
-import LeaderboardSection from '@/components/game/LeaderboardSection';
 
 const HELL_QUESTIONS = [
   { id: 'hq1',  a: '😤 똥맛 카레 먹기',                    b: '💩 카레맛 똥 먹기' },
@@ -297,8 +296,6 @@ export default function BalanceGame({ slug }: Props) {
     const result = buildOutput(aCount, questions.length, r, slug, title);
     return (
       <div className="space-y-4">
-        {/* 랭킹 등록 */}
-        <LeaderboardSection slug={slug} score={aCount} scoreLabel="A선택" sortOrder="desc" />
         <div className={`bg-gradient-to-br ${r.visual.gradient} rounded-2xl p-8 text-center shadow-lg`}>
           <div className="flex justify-center gap-3 mb-4">
             {r.visual.emojis.map((em, i) => (

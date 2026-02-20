@@ -21,7 +21,8 @@
       "WebFetch(domain:developers.kakao.com)",
       "Bash(nvm list:*)",
       "Bash(source:*)",
-      "Bash(nvm use:*)"
+      "Bash(nvm use:*)",
+      "Bash(find:*)"
     ]
   }
 }

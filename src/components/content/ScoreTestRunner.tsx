@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import ResultView from './ResultView';
 import { GenerateResultOutput } from '@/engine/types';
-import LeaderboardSection from '@/components/game/LeaderboardSection';
 
 interface ScoreQuestion { id: string; text: string; }
 interface ScoreResult {
@@ -713,8 +712,6 @@ export default function ScoreTestRunner({ slug }: Props) {
 
     return (
       <div className="space-y-4">
-        {/* 랭킹 등록 */}
-        <LeaderboardSection slug={slug} score={finalScore} scoreLabel="점" sortOrder="desc" />
         {/* 비주얼 결과 카드 */}
         <div className={`bg-gradient-to-br ${r.visual.gradient} rounded-2xl p-8 text-center shadow-lg`}>
           <div className="flex justify-center gap-3 mb-4">

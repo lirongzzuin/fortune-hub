@@ -44,8 +44,21 @@ export default function QuizRunner({ slug }: QuizRunnerProps) {
 
   if (finished) {
     const result = generateQuizResult(score, questions.length, seed, slug);
+    const pctCorrect = questions.length > 0 ? Math.round((score / questions.length) * 100) : 0;
+    const resultEmoji = pctCorrect >= 80 ? '🎉' : pctCorrect >= 50 ? '👍' : '📚';
     return (
       <div className="space-y-4">
+        {/* 결과 요약 카드 */}
+        <div className="bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl p-8 text-center shadow-lg">
+          <div className="flex justify-center gap-2 mb-3">
+            <span className="text-5xl">{resultEmoji}</span>
+            <span className="text-5xl">{meta.emoji}</span>
+          </div>
+          <p className="text-white/80 text-sm mb-1">{meta.title}</p>
+          <p className="text-3xl font-black text-white">{score}개 정답</p>
+          <p className="text-white/70 text-sm mt-1">{questions.length}문제 중 {score}개 · 정답률 {pctCorrect}%</p>
+        </div>
+        {/* 닉네임 등록 — 결과 바로 아래 */}
         <LeaderboardSection slug={slug} score={score} scoreLabel="정답" sortOrder="desc" />
         <ResultView result={result} slug={slug} />
       </div>
